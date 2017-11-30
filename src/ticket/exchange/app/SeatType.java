@@ -7,13 +7,14 @@ package ticket.exchange.app;
 
 /**
  *
- * @author Yo/Josh
+ * @author Josh
  */
-public class SeatType {
+public class SeatType extends Seat {
     public String seatName,seatArea,seatPrice;
     public double basePrice;
 
-    public SeatType() {
+    public SeatType(String gameName, double gamePrice, int normalSeatsAvailable, int businessSeatAvailable, int premiumSeatAvailable) {
+        super(gameName, gamePrice, normalSeatsAvailable, businessSeatAvailable, premiumSeatAvailable);
         this.seatName = "Seat Name: ";
         this.seatPrice = "Seat Price: ";
         this.basePrice = 50;
@@ -29,14 +30,15 @@ public class SeatType {
     }
 
     public double getPrice() {
-        return basePrice;
+        return basePrice + super.getGamePrice();
     }
 
     public String getSeatArea() {
         return seatArea;
     }
-
-
-
-
+    
+    
+    
+    
+    
 }

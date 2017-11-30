@@ -7,7 +7,7 @@ package ticket.exchange.app;
 
 /**
  *
- * @author Yo/Josh
+ * @author Yo
  */
 public class TicketExchangeApp {
 
@@ -20,5 +20,5 @@ public class TicketExchangeApp {
         ticketGUI.setVisible(true);
 
     }
-
+    
 }

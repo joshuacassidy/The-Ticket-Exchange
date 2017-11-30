@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Yo/Josh
+ * @author Yo
  */
 public class Records implements Serializable {
     private String fName;
@@ -23,8 +23,13 @@ public class Records implements Serializable {
     private boolean meal;
     private boolean phoneOffer;
     private boolean emailOffer;
-
-    public Records(String fName,String lName,String uniqueID, String age,String gender,String qty,String email,String phoneNo,boolean meal,boolean phoneOffer,boolean emailOffer) {
+    private int recordId;
+    private String cardNumber;
+    private String month;
+    private String year;
+    private String ccv;
+    
+    public Records(String fName,String lName,String uniqueID, String age,String gender,String qty,String email,String phoneNo,boolean meal,boolean phoneOffer,boolean emailOffer, String cardNumber, String month, String year, String ccv) {
         this.fName = fName;
         this.lName = lName;
         this.uniqueID = uniqueID;
@@ -36,7 +41,11 @@ public class Records implements Serializable {
         this.meal = meal;
         this.phoneOffer = phoneOffer;
         this.emailOffer = emailOffer;
-
+        this.cardNumber = cardNumber;
+        this.month = month;
+        this.year = year;
+        this.ccv = ccv;
+    
     }
 
     public String getUniqueID() {
@@ -59,10 +68,55 @@ public class Records implements Serializable {
         return email;
     }
 
+    public String getAge() {
+        return age;
+    }
 
+    public String getGender() {
+        return gender;
+    }
 
+    public String getPhoneNo() {
+        return phoneNo;
+    }
 
+    public boolean isMeal() {
+        return meal;
+    }
 
+    public boolean isPhoneOffer() {
+        return phoneOffer;
+    }
+
+    public boolean isEmailOffer() {
+        return emailOffer;
+    }
+
+    public int getRecordId() {
+        return recordId;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getCcv() {
+        return ccv;
+    }
+    
+    
+    
+
+    
+    
     public void showDetails(){
 //        System.out.println(fName);
 //        System.out.println(lName);

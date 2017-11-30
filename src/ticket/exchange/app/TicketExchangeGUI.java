@@ -12,8 +12,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Random;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -21,33 +22,27 @@ import javax.swing.JTextPane;
 
 /**
  *
- * @author Yo/Josh
+ * @author Yo
  */
 public class TicketExchangeGUI extends javax.swing.JFrame {
-
+   
     /**
      * Creates new form TicketExchangeGUI
      */
-    private SeatType seatType;
-    private ArrayList<Records> details;
+    private Seat seatType;
+    private ArrayList<Records> details, availableGamesForTrade;
     private boolean emptyVa;
     private boolean characterVa;
     private boolean ageVa;
-    private boolean genderVa;
-    private boolean cardNumVa;
-    private boolean monthVa;
-    private boolean yearVa;
-    private boolean ccvVa;
-    private boolean nameVa;
-    private String phonePatternIRE;
-    private boolean emailVa;
+    //private boolean phoneVa;
     private String fullName;
-    private int total;
-    private int totalQuantity;
-    private int seatCost;
-    private int mealPrice = 10;
+    ArrayList<Seat> obj;
+    private String fName, lName, uniqueID, age, gender, qty, email, phoneNo, cardNumber, month, year, ccv;
+    private boolean meal, phoneOffer, emailOffer;
+    
+    
     public TicketExchangeGUI() {
-
+       
         initComponents();
         jPanel2.setVisible(false);
         jPanel3.setVisible(false);
@@ -60,23 +55,18 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jScrollPane3.setVisible(false);
         jScrollPane5.setVisible(false);
         details = new ArrayList<>();
-        seatType = new SeatType();
         fullName = "";
-        phonePatternIRE = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
+        File file = new File("output.dat");
+        if(!file.exists()){
+            createSeatsForGames();
+            System.out.println("fresh start");
+        }
+        
+        getAvailaibleGames();
+        populateScrollPane();
 
-
-        /*phonePattern above means
-        \d{10}: 0123456789
-        (?:\d{3}-){2}\d{4}: 012-345-6789
-        \(\d{3}\)\d{3}-?\d{4}: (012)345-6789 or (012)3456789
-        ( -\\s)?: the text field can be blank
-        */
-        totalTA.setText("50");
-        seatCost = 50;
-        totalQuantity = 0;
-        total = seatCost;
     }
-
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -102,20 +92,19 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         exchangeBtn = new javax.swing.JButton();
         nextBtn1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        cardNumTA = new javax.swing.JTextField();
-        monthTA = new javax.swing.JTextField();
-        yearTA = new javax.swing.JTextField();
-        ccvTA = new javax.swing.JTextField();
-        nameTA = new javax.swing.JTextField();
+        cardNumTF = new javax.swing.JTextField();
+        monthTF = new javax.swing.JTextField();
+        yearTF = new javax.swing.JTextField();
+        ccvTF = new javax.swing.JTextField();
+        nameTF = new javax.swing.JTextField();
         rememberCardCB = new javax.swing.JCheckBox();
         backBtn2 = new javax.swing.JButton();
         nextBtn3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         summaryLB = new javax.swing.JLabel();
-        summaryTF = new javax.swing.JTextField();
-        summaryTF2 = new javax.swing.JTextField();
-        summaryTF3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        summaryTA = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         submitBtn = new javax.swing.JButton();
         requestBtn = new javax.swing.JButton();
@@ -123,8 +112,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        submitIdTF = new javax.swing.JTextField();
+        cardSubmitTF = new javax.swing.JTextField();
         backBtn4 = new javax.swing.JButton();
         submitBtn2 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
@@ -158,9 +147,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        totalTA = new javax.swing.JTextField();
+        choice1 = new java.awt.Choice();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(750, 500));
 
         jPanel1.setMaximumSize(new java.awt.Dimension(610, 426));
         jPanel1.setPreferredSize(new java.awt.Dimension(610, 426));
@@ -257,7 +247,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addComponent(selectLB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gameCB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(businessCheckBox)
                     .addComponent(premiumCheckBox)
@@ -267,57 +257,22 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(exchangeBtn)
                     .addComponent(nextBtn1))
                 .addGap(14, 14, 14))
         );
 
-        cardNumTA.setText("Card Number");
-        cardNumTA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cardNumTAMouseClicked(evt);
-            }
-        });
+        cardNumTF.setText("Card Number");
 
-        monthTA.setText("MM");
-        monthTA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                monthTAMouseClicked(evt);
-            }
-        });
-        monthTA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                monthTAActionPerformed(evt);
-            }
-        });
+        monthTF.setText("MM");
 
-        yearTA.setText("YYYY");
-        yearTA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                yearTAMouseClicked(evt);
-            }
-        });
-        yearTA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                yearTAActionPerformed(evt);
-            }
-        });
+        yearTF.setText("YYYY");
 
-        ccvTA.setText("CCV");
-        ccvTA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ccvTAMouseClicked(evt);
-            }
-        });
+        ccvTF.setText("CCV");
 
-        nameTA.setText("Name on Card");
-        nameTA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameTAMouseClicked(evt);
-            }
-        });
+        nameTF.setText("Name on Card");
 
         rememberCardCB.setText("Remeber this card?");
 
@@ -343,15 +298,15 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addGap(210, 210, 210)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(monthTA, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(monthTF, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(yearTA, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(yearTF, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(ccvTA, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(ccvTF, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(rememberCardCB)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cardNumTA)
-                        .addComponent(nameTA, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)))
+                        .addComponent(cardNumTF)
+                        .addComponent(nameTF, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)))
                 .addContainerGap(218, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
@@ -364,14 +319,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(cardNumTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cardNumTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(monthTA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(yearTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ccvTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(monthTF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yearTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ccvTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rememberCardCB)
                 .addGap(29, 29, 29)
@@ -381,19 +336,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
+        jPanel4.setPreferredSize(new java.awt.Dimension(410, 220));
+
         summaryLB.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         summaryLB.setText("Summary:");
-
-        summaryTF.setText("This is a very nice sample");
-
-        summaryTF2.setText("This is a very nice sample");
-
-        summaryTF3.setText("This is a very nice sample");
-        summaryTF3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                summaryTF3ActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Exit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -402,38 +348,41 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
+        summaryTA.setEditable(false);
+        summaryTA.setBackground(new java.awt.Color(204, 204, 204));
+        summaryTA.setColumns(20);
+        summaryTA.setRows(5);
+        jScrollPane2.setViewportView(summaryTA);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(73, 73, 73)
+                .addGap(23, 23, 23)
                 .addComponent(summaryLB, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(summaryTF3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(summaryTF2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(summaryTF, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(244, 244, 244))
+                .addGap(208, 208, 208))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(summaryLB, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(summaryTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(summaryTF2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(summaryTF3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(summaryLB, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
                 .addComponent(jButton1)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         submitBtn.setText("Submit");
@@ -517,8 +466,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(submitIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cardSubmitTF, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(backBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -536,8 +485,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cardSubmitTF, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(submitIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(67, 67, 67)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -709,7 +658,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
         jLabel16.setText("*Email:");
 
-        jLabel17.setText("*Phone:");
+        jLabel17.setText("Phone:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -776,8 +725,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                                         .addComponent(quantityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addComponent(totalTA, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -814,9 +762,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(phoneCheckBox)
                     .addComponent(emailCheckBox))
-                .addGap(7, 7, 7)
-                .addComponent(totalTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(49, 49, 49)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backBtn1)
                     .addComponent(nextBtn2))
@@ -835,15 +781,19 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(65, 65, 65)
+                            .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(596, 596, 596)))
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -854,17 +804,20 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(725, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -872,127 +825,78 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
     private void normalCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normalCheckBoxActionPerformed
         // TODO add your handling code here:
-        seatType = new NormalSeat();
+        seatType = new Seat(obj.get(gameCB.getSelectedIndex()).getGameName(),obj.get(gameCB.getSelectedIndex()).getGamePrice(),
+        obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable(),obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable(),
+        obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable());
         seatCheckRadioClicked(2);
+         System.out.println(obj.get(gameCB.getSelectedIndex()).getGameName() + " " + ((Seat) seatType).getTicketId() );
     }//GEN-LAST:event_normalCheckBoxActionPerformed
 
     private void gameCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameCBActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_gameCBActionPerformed
 
-    private void summaryTF3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryTF3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_summaryTF3ActionPerformed
-//---------------------card page----------------------------//
     private void nextBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn3ActionPerformed
         // TODO add your handling code here:
-        cardValidation();
-        monthValidation();
-        yearValidation();
-        ccvValidation();
-        nameOnCardValidation();
         jPanel4.setVisible(true); //go to summary page
-        jPanel3.setVisible(false); //close filling card detail page
-        if(cardNumVa == false){
-            JOptionPane.showMessageDialog(null, "Please type in an appropriate card number!");
-            jPanel3.setVisible(true);
-            jPanel4.setVisible(false);
-        }
-        else if(monthVa == false){
-            JOptionPane.showMessageDialog(null, "Please type in an appropriate an appropriate month!");
-            jPanel3.setVisible(true);
-            jPanel4.setVisible(false);
-        }
-        else if(yearVa == false){
-            JOptionPane.showMessageDialog(null, "Please type in an appropriate an appropriate year!");
-            jPanel3.setVisible(true);
-            jPanel4.setVisible(false);
-        }
-        else if(ccvVa == false){
-            JOptionPane.showMessageDialog(null, "Please type in an appropriate an appropriate CCV number!");
-            jPanel3.setVisible(true);
-            jPanel4.setVisible(false);
-        }
-        else if(nameVa == false){
-            JOptionPane.showMessageDialog(null, "Please type in an appropriate an appropriate name on card!");
-            jPanel3.setVisible(true);
-            jPanel4.setVisible(false);
-        }
-
-        boolean meal = mealCheckBox.isSelected();
-        boolean phoneOffer = phoneCheckBox.isSelected();
-        boolean emailOffer = emailCheckBox.isSelected();
-        Records records = new Records(fNameTA.getText(),lNameTA.getText(),uniqueIDTA.getText(),ageTA.getText(),genderTA.getText(),quantityCombo.getSelectedItem().toString(),emailTA.getText(),phoneTA.getText(),meal,phoneOffer,emailOffer);
-        records.showDetails();
-
-
+        jPanel3.setVisible(false); //close filling card detail page 
+        meal = mealCheckBox.isSelected();
+        phoneOffer = phoneCheckBox.isSelected();
+        emailOffer = emailCheckBox.isSelected();
+        /***********/
+        fName = fNameTA.getText();
+        lName = lNameTA.getText();
+        uniqueID = uniqueIDTA.getText();
+        age = ageTA.getText();
+        gender = genderTA.getText();
+        qty = quantityCombo.getSelectedItem().toString();
+        email = emailTA.getText();
+        phoneNo = phoneTA.getText();
+        cardNumber = cardNumTF.getText();
+        month = monthTF.getText();
+        year = yearTF.getText();
+        ccv = ccvTF.getText();
+        
+        Records records = new Records(fName,lName,uniqueID,age,gender,qty,email,phoneNo,meal,phoneOffer,emailOffer,cardNumber,month,year,ccv);
+//        System.out.println("fName: " + records.getfName());
+//        System.out.println("lName: "+ records.getlName());
+//        System.out.println("uniqueID: "+records.getUniqueID());
+//        System.out.println("age: "+ records.getAge());
+//        System.out.println("gender: "+records.getGender());
+//        System.out.println("qty: "+records.getQty());
+//        System.out.println("email: "+records.getEmail());
+//        System.out.println("phoneNo: "+records.getPhoneNo());
+//        System.out.println("cardNo: "+records.getCardNumber());
+//        System.out.println("month: "+records.getMonth());
+//        System.out.println("year: "+records.getYear());
+//        System.out.println("ccv: "+records.getCcv());
+        
+//        records.showDetails();
+        
+        
 //        JOptionPane.showMessageDialog(null,details.size());
-        if(cardNumVa == true && monthVa == true && yearVa == true && ccvVa == true && nameVa && true){
+        readDetails();
+        if(checkID()){
+            JOptionPane.showMessageDialog(null,"Fuck off youve already bought a ticket");
+        } else{
             details.add(records);
             saveDetails();
         }
-        for(Records i: details){
-            System.out.println(i.getUniqueID());
-
-        }
-
+//        for(Records i: details){
+//            System.out.println(i.getUniqueID());
+            
+//        }
+        
+        summaryTA.setText(String.format("Thank you %s.\n Your  %s ticket(s) to %s\n has been successfully purchased and can be your validation codes\n can be found in file.txt",fNameTA.getText(),
+        quantityCombo.getSelectedItem(),gameCB.getSelectedItem()));
+        writeGamesToFile();
+        
     }//GEN-LAST:event_nextBtn3ActionPerformed
-//-------------------------------------------------------------------------------------------//
-//-------------------------------- credit card page validation methods----------------------//
-    public boolean cardValidation(){
-        cardNumVa = true;
-        String card = cardNumTA.getText();
-        Pattern p4 = Pattern.compile("\\d{13,16}");
-        Matcher m4 = p4.matcher(card);
-        if(!m4.find()){
-            cardNumVa = false;
-        }
-        return cardNumVa;
-    }
-    public boolean monthValidation(){
-        monthVa = true;
-        String month = monthTA.getText();
-        Pattern p5 = Pattern.compile("^1[0-2]$|^0[1-9]$");
-        Matcher m5 = p5.matcher(month);
-        if(!m5.find()){
-            monthVa = false;
-        }
-        return monthVa;
-    }
-    public boolean yearValidation(){
-        yearVa = true;
-        String year = yearTA.getText();
-        Pattern p6 = Pattern.compile("^\\d{4}$");
-        Matcher m6 = p6.matcher(year);
-        if(!m6.find()){
-            yearVa = false;
-        }
-        return yearVa;
-    }
-    public boolean ccvValidation(){
-        ccvVa = true;
-        String ccv = ccvTA.getText();
-        Pattern p7 = Pattern.compile("^\\d{3}$");
-        Matcher m7 = p7.matcher(ccv);
-        if(!m7.find()){
-            ccvVa = false;
-        }
-        return ccvVa;
-    }
-    public boolean nameOnCardValidation(){
-        nameVa = true;
-        String name = nameTA.getText();
-        Pattern p8 = Pattern.compile("^[\\p{L} .'-]+$");
-        Matcher m8 = p8.matcher(name);
-        if(!m8.find()){
-            nameVa = false;
-        }
-        return nameVa;
-    }
-//-----------------------------------------------------------------------------//
+
     private void exchangeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exchangeBtnActionPerformed
         // TODO add your handling code here:
-        jPanel5.setVisible(true);// open submit or request page
+        jPanel5.setVisible(true);// open submit or request page 
         jPanel1.setVisible(false);//close down selecting seat page
     }//GEN-LAST:event_exchangeBtnActionPerformed
 
@@ -1004,10 +908,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
     private void requestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestBtnActionPerformed
         // TODO add your handling code here:
-        jPanel8.setVisible(true);//open available slot page
+        jPanel8.setVisible(true);//open available slot page 
         jPanel5.setVisible(false);//close down submit or request page
-
-
+        
+        
     }//GEN-LAST:event_requestBtnActionPerformed
 
     private void backBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtn3ActionPerformed
@@ -1019,15 +923,96 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private void backBtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtn4ActionPerformed
         // TODO add your handling code here:
         jPanel5.setVisible(true);//open submit or request page
-        jPanel6.setVisible(false);//close down seeat ID and card number page
+        jPanel6.setVisible(false);//close down seeat ID and card number page 
     }//GEN-LAST:event_backBtn4ActionPerformed
 
     private void submitBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtn2ActionPerformed
         // TODO add your handling code here:
-        jPanel7.setVisible(true);// open congratz page, submitting seat ID and card number successfully
-        jPanel6.setVisible(false);// close down seat ID and card Number page
+        
+        readDetails();
+        boolean isSubmitted = false;
+        for(int i = 0; i < details.size(); i++) {
+            System.out.println(details.get(i).getUniqueID());
+            if(details.get(i).getUniqueID().equals(submitIdTF.getText()) && details.get(i).getCardNumber().equals(cardSubmitTF.getText())) {
+                jPanel7.setVisible(true);// open congratz page, submitting seat ID and card number successfully  
+                jPanel6.setVisible(false);// close down seat ID and card Number page 
+                isSubmitted = true;
+                addNewAvailableTicket(details.get(i));
+                //Create a new function to write the item to a new file
+                details.remove(i);
+                saveDetails();
+            }
+//            System.out.println(details.get(i).getUniqueID().equals(submitIdTF.getText()));
+        }
+        if (!isSubmitted) {
+            JOptionPane.showMessageDialog(null, "Unsuccessful");
+        }
+        
     }//GEN-LAST:event_submitBtn2ActionPerformed
+    public void populateScrollPane(){
+//        availableSlotLB.getViewport().remove(1);
+//        jScrollPane1.removeAll();
+//         jScrollPane1.add(listModel);
 
+//        jScrollPane1.add(availableSlotLB, "1");
+//        availableSlotLB.addElement(gameCB.getSelectedItem());
+//        availableSlotLB.addItem
+//        jList1.add(this, WIDTH);        
+//        jList1.add(fName, jScrollPane1);
+
+//        availableSlotLB.
+//        availableSlotLB.add("s");
+//        System.out.println(availableSlotLB.getSelectedValue());
+//        System.out.println(jScrollPane1.getSize());
+//        jScrollPane1.getSize();
+//          availableSlotLB.remove(1);
+
+    }
+    public void addNewAvailableTicket(Records newGame){
+        try{
+            File f = new File("Trading.dat");
+            FileInputStream input = new FileInputStream(f);
+            ObjectInputStream ois = new ObjectInputStream(input);
+            availableGamesForTrade = (ArrayList<Records>) ois.readObject();
+//            JOptionPane.showMessageDialog(null,details.size());
+            ois.close();
+//            for (Records i: details) {
+//                System.out.println("Name: " + i.getfName());
+//            }
+        } catch(IOException | ClassNotFoundException e){
+            System.out.println("crashing on read " + e);
+
+
+        } 
+        
+        availableGamesForTrade.add(newGame);
+       
+                try{
+            
+            File file = new File("Trading.dat");
+            FileOutputStream output = new FileOutputStream(file);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);            
+            objectOutputStream.writeObject(availableGamesForTrade);
+            objectOutputStream.close();
+            
+        } catch(IOException e){
+            System.out.println("Crashing on read");
+        }
+    
+    try{
+            
+            File file = new File("Trading.dat");
+            FileOutputStream output = new FileOutputStream(file);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);            
+            objectOutputStream.writeObject(availableGamesForTrade);
+            objectOutputStream.close();
+
+        } catch(IOException e){
+            System.out.println("Crashing on write");
+        }            
+        
+    }
+    
     private void backBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtn2ActionPerformed
         // TODO add your handling code here:
         jPanel2.setVisible(true);// go back to filling detail page
@@ -1053,16 +1038,12 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private void genderTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderTAActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_genderTAActionPerformed
-//-------------------------------total price display---------------------//
+
     private void quantityComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityComboActionPerformed
         // TODO add your handling code here:
-        quantityValue();
-
-        String totalDisplay = Integer.toString(total);
-        totalTA.setText(totalDisplay);
-        System.out.println(total);
+        
     }//GEN-LAST:event_quantityComboActionPerformed
-//-----------------------------------------------------------------------//
+
     private void emailTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTAActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_emailTAActionPerformed
@@ -1070,24 +1051,11 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private void phoneTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneTAActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneTAActionPerformed
-//-------------------------------total price display---------------------//
+
     private void mealCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mealCheckBoxActionPerformed
         // TODO add your handling code here:
-
-        if(mealCheckBox.isSelected()){
-            total = totalQuantity + 10;
-        }
-        else if(!mealCheckBox.isSelected()){
-            total = totalQuantity + 0;
-        }
-        String totalDisplay = Integer.toString(total);
-        totalTA.setText(totalDisplay);
-        System.out.println(total);
-
-
-
     }//GEN-LAST:event_mealCheckBoxActionPerformed
-//------------------------------------------------------------------------//
+
     private void phoneCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneCheckBoxActionPerformed
@@ -1100,96 +1068,68 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         jPanel1.setVisible(true);// go back to seat page
         jPanel2.setVisible(false);//close filling detail page
-
-
+        
+        
     }//GEN-LAST:event_backBtn1ActionPerformed
- //------------------------------filling detail page-----------------------//
+
     private void nextBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn2ActionPerformed
         // TODO add your handling code here:
-        requiredFieldValidation();
-        emailValidation();
+        emptyValidation();
         nameValidation();
         ageValidation();
-        genderValidation();
-        //-----------------------//
-        String phone = phoneTA.getText();// phone validation using regex
-        Pattern p1 = Pattern.compile(phonePatternIRE);// anything outside phonePatternIRE aren't allowed
-        Matcher m1 = p1.matcher(phone);
-        //----------------------//
+        //phoneValidation();
 
-
-        jPanel3.setVisible(true);// open filling card detail page
-        jPanel2.setVisible(false);//close filling detail page
-
+        
         //validate required fields
-        if(emptyVa == false){
-            JOptionPane.showMessageDialog(null, "Please fill in required details");
-            jPanel2.setVisible(true);
-            jPanel3.setVisible(false);
-        }
-
-        //validate if the fName and lName only contains character not numbers and special letter
-        if(characterVa == false){
-            JOptionPane.showMessageDialog(null, "Only alphabets are allowed in First name and Second name!");
-            jPanel2.setVisible(true);
-            jPanel3.setVisible(false);
-        }
-
-        //validate if the age fields only contains numbers and prevent users to put in unrealistic age
-
-        if(ageVa == false){// age can,t be above 100
-            JOptionPane.showMessageDialog(null, "Please type in an appropriate age!");
-            jPanel2.setVisible(true);
-            jPanel3.setVisible(false);
-        }
-
-        //--------------------Phone validation----------------------//
-        if(!m1.find()){//if the phone number from user doesn't match the pattern, make them type in again
+//        if(emptyVa == false){
+//            JOptionPane.showMessageDialog(null, "Please fill in required details");
+//            
+//        } 
+//        
+//        //validate if the fName and lName only contains character not numbers and special letter
+//        else if(characterVa == false){
+//            JOptionPane.showMessageDialog(null, "Only alphabets are allowed in this field");
+//        }
+//        
+//        //validate if the age fields only contains numbers and prevent users to put in unrealistic age
+//        
+//        else if(ageVa == false || Integer.parseInt(ageTA.getText()) > 100){// age can,t be above 100
+//            JOptionPane.showMessageDialog(null, "Please type in an appropriate age!");
+//        } else {
+            jPanel3.setVisible(true);// open filling card detail page
+            jPanel2.setVisible(false);//close filling detail page  
+            
+//            activeIndex = gameCB.getSelectedIndex();
+            
+            if(seatType instanceof Seat){
+                obj.get(gameCB.getSelectedIndex()).setNormalSeatsAvailable(obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable()-1);
+            } else if(seatType instanceof BusinessSeat){
+                obj.get(gameCB.getSelectedIndex()).setBusinessSeatAvailable(obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable()-1);
+            } else {
+                obj.get(gameCB.getSelectedIndex()).setPremiumSeatAvailable(obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable()-1);
+                
+            }
+            System.out.println(obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable());
+//        }
+        
+        /*
+        if(phoneVa == false){
             JOptionPane.showMessageDialog(null, "Please type in an appropriate phone number!");
             jPanel2.setVisible(true);
             jPanel3.setVisible(false);
         }
-
-        //if typed in gender is non-character or the length of text is unrealistic make them type in again!
-        if(genderVa == false || genderTA.getText().length()>8){
-            JOptionPane.showMessageDialog(null, "Please type in an appropriate gender!");
-            jPanel2.setVisible(true);
-            jPanel3.setVisible(false);
-        }
-
-        if(emailVa == false){
-            JOptionPane.showMessageDialog(null, "Please type in an appropriate email!");
-            jPanel2.setVisible(true);
-            jPanel3.setVisible(false);
-        }
-
-        readDetails();
-        if(checkID()){
-            JOptionPane.showMessageDialog(null,"youve already bought a ticket");
-             jPanel2.setVisible(true);
-             jPanel3.setVisible(false);
-        }
+       */
+        
     }//GEN-LAST:event_nextBtn2ActionPerformed
- //-------------------------------------------------------------------------------------//
- //----------------filling detail page validation methods-------------------------------//
-    public boolean requiredFieldValidation(){// check if the required text fields are empty
+    public boolean emptyValidation(){// check if the required text fields are empty
         emptyVa = true;
         if(fNameTA.getText().equals("") || lNameTA.getText().equals("") || uniqueIDTA.getText().equals("") || emailTA.getText().equals("")){
             emptyVa = false;
         }
         return emptyVa;
     }
-    public boolean genderValidation(){
-        genderVa = true;
-        String gender = genderTA.getText(); //gender validation using regex
-        Pattern p2 = Pattern.compile("[a-zA-Z] |( -\\s)?");// non-word character aren't allowed, white space is allowed
-        Matcher m2 = p2.matcher(gender);
-        if(!m2.find()){
-            genderVa = false;
-        }
-        return genderVa;
-    }
-
+    
+    
     public boolean nameValidation(){ // check if the first name and last name contains character not numbers
         characterVa = true;
         fullName = fNameTA.getText() + lNameTA.getText();
@@ -1200,7 +1140,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         }
         return characterVa;
     }
-
+    
     public boolean ageValidation(){// check if the inout age is appropriate, can't contain a character
         ageVa = true;
         for(char letter : ageTA.getText().toCharArray()){
@@ -1210,29 +1150,119 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         }
         return ageVa;
     }
+    
+    public void createSeatsForGames(){
+        try{
+            
+            File file = new File("output.dat");
+            FileOutputStream output = new FileOutputStream(file);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);
+            String[] x = {"Ireland v South Africa",
+                "Ireland v South Africa & Argentina",
+                "Ireland v South Africa & Fiji",
+                "Ireland v South Africa, Fiji & Argentina",
+                "Ireland v Fiji",
+                "Supporters Club Event",
+                "Ireland v Argentina"
+            };
+            ArrayList<Seat> y = new ArrayList<>();
+            Seat game;
+            Random random = new Random();
+            for(String i: x){
+                game = new Seat(i,random.nextInt(20)+50,100,100,100);
+                y.add(game);
+//                System.out.println(1);
 
-    public boolean emailValidation(){
-        emailVa = true;
-        String email = emailTA.getText();
-        Pattern p3 = Pattern.compile("[a-zA-Z0-9\\p{Punct}]+@[a-zA-Z]++.[a-zA-Z]{2,4}+|[a-zA-Z0-9\\p{Punct}]+@[a-zA-Z]+.[a-zA-Z]{2,4}+.[a-zA-Z]{2}$");
-        Matcher m3 = p3.matcher(email);
-        if(!m3.find()){
-            emailVa = false;
+            }
+            
+            objectOutputStream.writeObject(y);
+            objectOutputStream.close();
+
+        } catch(IOException e){
+            
         }
-        return emailVa;
     }
+    
+        public void writeGamesToFile(){
+        try{
+            
+            File file = new File("output.dat");
+            FileOutputStream output = new FileOutputStream(file);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);
+//            String[] x = {"Ireland v South Africa",
+//                "Ireland v South Africa & Argentina",
+//                "Ireland v South Africa & Fiji",
+//                "Ireland v South Africa, Fiji & Argentina",
+//                "Ireland v Fiji",
+//                "Supporters Club Event",
+//                "Ireland v Argentina"
+//            };
+//            ArrayList<Game> y = new ArrayList<>();
+//            Game game;
+//            Random random = new Random();
+//            for(String i: x){
+//                game = new Game(i,random.nextInt(20)+50,100,100,100);
+//                y.add(game);
+////                System.out.println(1);
+//
+//            }
+            
+            objectOutputStream.writeObject(obj);
+            objectOutputStream.close();
+
+        } catch(IOException e){
+            System.out.println("Crashing on write");
+        }
+    }
+        
+        public void getAvailaibleGames(){
+        gameCB.removeAllItems();        
+        try{
+            File file = new File("output.dat");
+            FileInputStream input = new FileInputStream(file);
+            ObjectInputStream objectInputStream = new ObjectInputStream(input);
+            obj = (ArrayList<Seat>) objectInputStream.readObject();
+            for(Seat i: obj){
+//                System.out.println(1);
+                gameCB.addItem(String.format("%s (%s)",i.getGameName(), i.getGamePrice()));
+            }
+//            String obj[] = (String []) objectInputStream.readObject();
+//            for(String i: obj){
+//                gameCB.addItem(i);
+//            }
+            objectInputStream.close();
+
+        } catch(IOException | ClassNotFoundException e){
+            System.out.println(e);
+        }
+    }
+        
+   
+    
+    /*
+    public boolean phoneValidation(){//check if the phone text field contains only numbers
+        phoneVa = true;
+        String phone = phoneTA.getText();
+        for(int i=0; i< phone.length();i++){
+            if(phone.indexOf(0) == '+'){
+                phoneVa = true;
+            }else if(!Character.isDigit(phone))
+        }
+        
+        return phoneVa;
+    }
+    */
+    
     public Boolean checkID(){
             //System.out.println(1);
         for(Records i: details){
-            System.out.println(i.getUniqueID());
+            System.out.println("unique id: " + i.getUniqueID());
             if(i.getUniqueID().equals(uniqueIDTA.getText())){
                 return true;
             }
         }
         return false;
     }
-  //------------------------------------------------------//
-  //--------------write to file---------------------------//
     public void saveDetails(){
         try{
             File f = new File("Records.dat");
@@ -1242,15 +1272,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Written!");
 
             oos.close();
-
+            
         } catch (IOException e){
             System.out.println(e);
-
+            
         }
-
+       
     }
- //----------------------------------------------------------//
- //-----------------------read from file----------------------//
+    
     public void readDetails(){
         try{
             File f = new File("Records.dat");
@@ -1259,131 +1288,55 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             details = (ArrayList<Records>) ois.readObject();
             JOptionPane.showMessageDialog(null,details.size());
             ois.close();
+            for (Records i: details) {
+//                System.out.println("Name: " + i.getfName());
+            }
         } catch(IOException | ClassNotFoundException e){
             System.out.println("crashing on read");
 
-        }
-
+        } 
+       
     }
-//--------------------------------------------------------------//
-    /*
-    private int addMeal(){
-
-        if(mealCheckBox.isSelected()){
-            total = totalQuantity + 10;
-        }
-        else if(!mealCheckBox.isSelected()){
-            total = totalQuantity + 0;
-        }
-        return total;
-    }
-    */
-    //------------------Phony version of the total display--------//
-     public int quantityValue(){
-
-        if(quantityCombo.getSelectedItem().equals("1")){
-            if(mealCheckBox.isSelected()){
-                totalQuantity = seatCost*1;
-                total = totalQuantity+10;
-            }else{
-                totalQuantity = seatCost*1;
-                total = totalQuantity+0;
-            }
-        }
-        else if(quantityCombo.getSelectedItem().equals("2")){
-            if(mealCheckBox.isSelected()){
-                totalQuantity = seatCost*2;
-                total = totalQuantity+10;
-            }else{
-                totalQuantity = seatCost*2;
-                total = totalQuantity+0;
-            }
-        }
-        else if(quantityCombo.getSelectedItem().equals("3")){
-             if(mealCheckBox.isSelected()){
-                totalQuantity = seatCost*3;
-                total = totalQuantity+10;
-            }else{
-                totalQuantity = seatCost*3;
-                total = totalQuantity+0;
-            }
-        }
-        else if(quantityCombo.getSelectedItem().equals("4")){
-             if(mealCheckBox.isSelected()){
-                totalQuantity = seatCost*4;
-                total = totalQuantity+10;
-            }else{
-                totalQuantity = seatCost*4;
-                total = totalQuantity+0;
-            }
-        }
-        return total;
-
-    }
-    //-----------------------------------------------------------------//
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null,"Thank You!");
-        System.exit(1);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void premiumCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_premiumCheckBoxActionPerformed
         // TODO add your handling code here:
-        seatType = new PremiumSeat();
+        seatType = new PremiumSeat(obj.get(gameCB.getSelectedIndex()).getGameName(),obj.get(gameCB.getSelectedIndex()).getGamePrice(),
+        obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable(),obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable(),
+        obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable());
         seatCheckRadioClicked(1);
     }//GEN-LAST:event_premiumCheckBoxActionPerformed
 
     private void businessCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_businessCheckBoxActionPerformed
         // TODO add your handling code here:
-        seatType = new BusinessSeat();
+        seatType = new BusinessSeat(obj.get(gameCB.getSelectedIndex()).getGameName(),obj.get(gameCB.getSelectedIndex()).getGamePrice(),
+        obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable(),obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable(),
+        obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable());
         seatCheckRadioClicked(0);
     }//GEN-LAST:event_businessCheckBoxActionPerformed
 
     private void nextBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn1ActionPerformed
         // TODO add your handling code here:
-        jPanel2.setVisible(true);// open filling details page
-        jPanel1.setVisible(false);// close seat page (first page)
+        if(!businessCheckBox.isSelected() && !premiumCheckBox.isSelected() && !normalCheckBox.isSelected()){
+            JOptionPane.showMessageDialog(null,"Please Select a seat.");
+        } else{
+            jPanel2.setVisible(true);// open filling details page
+            jPanel1.setVisible(false);// close seat page (first page)  
+        }
 
+        
     }//GEN-LAST:event_nextBtn1ActionPerformed
 
-    private void cardNumTAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cardNumTAMouseClicked
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        cardNumTA.setText("");
-    }//GEN-LAST:event_cardNumTAMouseClicked
-
-    private void monthTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthTAActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_monthTAActionPerformed
-
-    private void monthTAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monthTAMouseClicked
-        // TODO add your handling code here:
-        monthTA.setText("");
-    }//GEN-LAST:event_monthTAMouseClicked
-
-    private void yearTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearTAActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_yearTAActionPerformed
-
-    private void yearTAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yearTAMouseClicked
-        // TODO add your handling code here:
-        yearTA.setText("");
-    }//GEN-LAST:event_yearTAMouseClicked
-
-    private void ccvTAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ccvTAMouseClicked
-        // TODO add your handling code here:
-        ccvTA.setText("");
-    }//GEN-LAST:event_ccvTAMouseClicked
-
-    private void nameTAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameTAMouseClicked
-        // TODO add your handling code here:
-        nameTA.setText("");
-    }//GEN-LAST:event_nameTAMouseClicked
-
+        JOptionPane.showMessageDialog(null,"Thank You!");
+        System.exit(1);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
     private void seatCheckRadioClicked(int clicked){
         JRadioButton x[] = {businessCheckBox,premiumCheckBox,normalCheckBox};
         JScrollPane y[] = {jScrollPane4,jScrollPane3,jScrollPane5};
         JTextPane z[] = {businessTP,premiumTP,normalTP};
-
+        
 
         for(int i =0; i < x.length; i++){
                 if(i == clicked){
@@ -1391,18 +1344,18 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     y[i].setVisible(true);
 
                     z[i].setText(String.format("%s\n%s\n%s",seatType.getSeatName(),seatType.getSeatPrice(),seatType.getSeatArea()));
-
+                    
                 } else {
                     x[i].setSelected(false);
                     y[i].setVisible(false);
                 }
 
-
+            
         }
-                            getContentPane().validate();
-                    getContentPane().repaint();
+        getContentPane().validate();
+        getContentPane().repaint();
     }
-
+    
     /**
      * @param args the command line arguments
      */
@@ -1410,7 +1363,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -1437,7 +1390,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
     }
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ageTA;
@@ -1449,8 +1402,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JButton backBtn4;
     private javax.swing.JRadioButton businessCheckBox;
     private javax.swing.JTextPane businessTP;
-    private javax.swing.JTextField cardNumTA;
-    private javax.swing.JTextField ccvTA;
+    private javax.swing.JTextField cardNumTF;
+    private javax.swing.JTextField cardSubmitTF;
+    private javax.swing.JTextField ccvTF;
+    private java.awt.Choice choice1;
     private javax.swing.JLabel congratzLB;
     private javax.swing.JCheckBox emailCheckBox;
     private javax.swing.JTextField emailTA;
@@ -1480,15 +1435,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField lNameTA;
     private javax.swing.JCheckBox mealCheckBox;
-    private javax.swing.JTextField monthTA;
-    private javax.swing.JTextField nameTA;
+    private javax.swing.JTextField monthTF;
+    private javax.swing.JTextField nameTF;
     private javax.swing.JButton nextBtn1;
     private javax.swing.JButton nextBtn2;
     private javax.swing.JButton nextBtn3;
@@ -1505,12 +1459,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel selectLB;
     private javax.swing.JButton submitBtn;
     private javax.swing.JButton submitBtn2;
+    private javax.swing.JTextField submitIdTF;
     private javax.swing.JLabel summaryLB;
-    private javax.swing.JTextField summaryTF;
-    private javax.swing.JTextField summaryTF2;
-    private javax.swing.JTextField summaryTF3;
-    private javax.swing.JTextField totalTA;
+    private javax.swing.JTextArea summaryTA;
     private javax.swing.JTextField uniqueIDTA;
-    private javax.swing.JTextField yearTA;
+    private javax.swing.JTextField yearTF;
     // End of variables declaration//GEN-END:variables
 }
