@@ -50,7 +50,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
        
         initComponents();
         getContentPane().setBackground(new Color(10,229,183));
-        setResizable(false);
+        setResizable(true);
         welcomePanel.setVisible(true);
         HomePanel.setVisible(false);
         detailsPanel.setVisible(false);
@@ -144,6 +144,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(700, 560));
         setResizable(false);
 
         HomePanel.setBackground(new java.awt.Color(10, 229, 183));
@@ -277,7 +278,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(premiumScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(businessScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(normalScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(homePageNextBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
