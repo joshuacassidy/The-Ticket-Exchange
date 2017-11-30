@@ -144,7 +144,6 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(665, 550));
         setResizable(false);
 
         HomePanel.setBackground(new java.awt.Color(10, 229, 183));
@@ -215,14 +214,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         normalTP.setToolTipText("");
         normalScrollPane.setViewportView(normalTP);
 
-        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/rugbyIRE3.png"))); // NOI18N
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/Res/logo.png"))); // NOI18N
 
         selectLB.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
         selectLB.setForeground(new java.awt.Color(250, 250, 250));
         selectLB.setText("SELECT A GAME");
 
         homePageNextBtn.setBackground(new java.awt.Color(10, 229, 183));
-        homePageNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/fast-forward-button (1).png"))); // NOI18N
+        homePageNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/res/forward-button.png"))); // NOI18N
         homePageNextBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 homePageNextBtnMouseClicked(evt);
@@ -278,7 +277,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(premiumScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(businessScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(normalScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(homePageNextBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
@@ -345,14 +344,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        creditCardPageNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/fast-forward-button (1).png"))); // NOI18N
+        creditCardPageNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/res/forward-button.png"))); // NOI18N
         creditCardPageNextBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 creditCardPageNextBtnMouseClicked(evt);
             }
         });
 
-        creditCardBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/back-arrow-button.png"))); // NOI18N
+        creditCardBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/res/back-button.png"))); // NOI18N
         creditCardBackBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 creditCardBackBtnMouseClicked(evt);
@@ -420,7 +419,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         summaryTA.setRows(5);
         summaryScrollPane.setViewportView(summaryTA);
 
-        exitBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/logout.png"))); // NOI18N
+        exitBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/res/logout.png"))); // NOI18N
         exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 exitBtnMouseClicked(evt);
@@ -605,14 +604,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        detailsPageNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/fast-forward-button (1).png"))); // NOI18N
+        detailsPageNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/res/forward-button.png"))); // NOI18N
         detailsPageNextBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 detailsPageNextBtnMouseClicked(evt);
             }
         });
 
-        detailsPageBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/back-arrow-button.png"))); // NOI18N
+        detailsPageBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/res/back-button.png"))); // NOI18N
         detailsPageBackBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 detailsPageBackBtnMouseClicked(evt);
@@ -764,9 +763,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         welcomeLbl.setForeground(new java.awt.Color(250, 250, 250));
         welcomeLbl.setText("WELCOME TO SHERIDAN'S SALE");
 
-        logoWelcomePage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/rugbyIRE3.png"))); // NOI18N
+        logoWelcomePage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/Res/logo.png"))); // NOI18N
 
-        welcomePageNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/fast-forward-button (1).png"))); // NOI18N
+        welcomePageNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/res/forward-button.png"))); // NOI18N
         welcomePageNextBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 welcomePageNextBtnMouseClicked(evt);
