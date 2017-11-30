@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Yo
+ * @author Yo/Josh
  */
 public class Records implements Serializable {
     private String fName;

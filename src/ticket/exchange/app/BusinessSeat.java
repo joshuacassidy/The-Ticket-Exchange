@@ -7,7 +7,7 @@ package ticket.exchange.app;
 
 /**
  *
- * @author Josh
+ * @author Yo/Josh
  */
 public class BusinessSeat extends Seat {
     

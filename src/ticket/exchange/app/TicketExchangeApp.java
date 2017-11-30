@@ -7,7 +7,7 @@ package ticket.exchange.app;
 
 /**
  *
- * @author Yo
+ * @author Yo/Josh
  */
 public class TicketExchangeApp {
 

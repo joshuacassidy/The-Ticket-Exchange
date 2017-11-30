@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Josh
+ * @author Yo/Josh
  */
 public class Seat implements Serializable {
     private String gameName;

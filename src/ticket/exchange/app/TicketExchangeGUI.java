@@ -22,7 +22,7 @@ import javax.swing.JTextPane;
 
 /**
  *
- * @author Yo
+ * @author Yo/Josh
  */
 public class TicketExchangeGUI extends javax.swing.JFrame {
    
@@ -878,7 +878,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 //        JOptionPane.showMessageDialog(null,details.size());
         readDetails();
         if(checkID()){
-            JOptionPane.showMessageDialog(null,"Fuck off youve already bought a ticket");
+            JOptionPane.showMessageDialog(null,"youve already bought a ticket");
         } else{
             details.add(records);
             saveDetails();
