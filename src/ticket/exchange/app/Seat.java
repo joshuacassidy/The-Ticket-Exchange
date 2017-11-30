@@ -17,19 +17,25 @@ public class Seat implements Serializable {
     public int normalSeatsAvailable,businessSeatAvailable,premiumSeatAvailable;
     public String seatName,seatArea;
     public double basePrice;
+    private char gate;
+
     int ticketId;
-    
+
     public Seat(String gameName, double gamePrice, int normalSeatsAvailable, int businessSeatAvailable, int premiumSeatAvailable) {
         this.gamePrice = gamePrice;
         this.gameName = gameName;
-        
+
         this.seatName = "Normal Area";
         this.seatArea = "Normal Class Seat";
-        
+        gate = 'C';
         this.normalSeatsAvailable = normalSeatsAvailable;
         this.businessSeatAvailable = businessSeatAvailable;
         this.premiumSeatAvailable = premiumSeatAvailable;
         this.basePrice = 50;
+    }
+
+    public char getGate() {
+        return gate;
     }
 
     public void setNormalSeatsAvailable(int normalSeatsAvailable) {
@@ -63,7 +69,7 @@ public class Seat implements Serializable {
     public int getPremiumSeatAvailable() {
         return premiumSeatAvailable;
     }
-    
+
 
     public String getSeatName() {
         return seatName;
@@ -76,21 +82,21 @@ public class Seat implements Serializable {
     public String getSeatArea() {
         return seatArea;
     }
-    
+
     public void seatPurchased() {
         normalSeatsAvailable--;
     }
-    
+
     public String getTicketId() {
         return seatName+normalSeatsAvailable;
     }
-    
+
     public String getSeatPrice() {
         return String.format("Price of ticket is: %s",getPrice()); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public void setTicketId(int ticketId) {
         this.ticketId = ticketId;
     }
-   
+
 }

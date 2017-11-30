@@ -36,9 +36,9 @@ public class SeatType extends Seat {
     public String getSeatArea() {
         return seatArea;
     }
-    
-    
-    
-    
-    
+
+
+
+
+
 }

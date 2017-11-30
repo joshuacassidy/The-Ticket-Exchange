@@ -5,6 +5,7 @@
  */
 package ticket.exchange.app;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,10 +14,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
@@ -25,25 +29,26 @@ import javax.swing.JTextPane;
  * @author Yo/Josh
  */
 public class TicketExchangeGUI extends javax.swing.JFrame {
-   
+
     /**
      * Creates new form TicketExchangeGUI
      */
     private Seat seatType;
     private ArrayList<Records> details, availableGamesForTrade;
-    private boolean emptyVa;
-    private boolean characterVa;
-    private boolean ageVa;
-    //private boolean phoneVa;
-    private String fullName;
+
+
+
     ArrayList<Seat> obj;
-    private String fName, lName, uniqueID, age, gender, qty, email, phoneNo, cardNumber, month, year, ccv;
-    private boolean meal, phoneOffer, emailOffer;
-    
-    
+    private String fName, lName, uniqueID, age, gender, qty, email, phoneNo, cardNumber, month, year, ccv, carPark, meal;
+    private boolean phoneOffer, emailOffer,emptyVa,characterVa,ageVa,genderVa,cardNumVa,monthVa,yearVa,ccvVa,nameVa,emailVa;
+    private String phonePatternIRE,fullName;
+    private int total,totalQuantity,seatCost,mealPrice, current;
+
     public TicketExchangeGUI() {
-       
+
         initComponents();
+        getContentPane().setBackground(new Color(10,229,183));
+        setResizable(false);
         jPanel2.setVisible(false);
         jPanel3.setVisible(false);
         jPanel4.setVisible(false);
@@ -61,12 +66,25 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             createSeatsForGames();
             System.out.println("fresh start");
         }
-        
+        current=8;
+
         getAvailaibleGames();
         populateScrollPane();
+        phonePatternIRE = "\\d{10}|\\d{3}-\\d{7}|\\d{3}-\\d{3}-\\d{4}";
+        mealPrice=10;
+
+
+        seatCost = 50;
+        totalQuantity = 0;
+        total = seatCost;
+        parkCB.setVisible(false);
+        mealCB.setVisible(false);
+        mealLbl.setVisible(false);
+        parkLbl.setVisible(false);
+
 
     }
-   
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,6 +95,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
         premiumCheckBox = new javax.swing.JRadioButton();
         normalCheckBox = new javax.swing.JRadioButton();
@@ -90,14 +109,15 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         normalTP = new javax.swing.JTextPane();
         exchangeBtn = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         nextBtn1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         cardNumTF = new javax.swing.JTextField();
         monthTF = new javax.swing.JTextField();
         yearTF = new javax.swing.JTextField();
         ccvTF = new javax.swing.JTextField();
         nameTF = new javax.swing.JTextField();
-        rememberCardCB = new javax.swing.JCheckBox();
         backBtn2 = new javax.swing.JButton();
         nextBtn3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -133,8 +153,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         quantityCombo = new javax.swing.JComboBox<>();
         emailTA = new javax.swing.JTextField();
         phoneTA = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        mealCheckBox = new javax.swing.JCheckBox();
+        mealLbl = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         phoneCheckBox = new javax.swing.JCheckBox();
         emailCheckBox = new javax.swing.JCheckBox();
@@ -144,66 +163,115 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        qtyLbl = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        choice1 = new java.awt.Choice();
+        totalTA = new javax.swing.JTextField();
+        parkCB = new javax.swing.JComboBox<>();
+        parkLbl = new javax.swing.JLabel();
+        mealCB = new javax.swing.JComboBox<>();
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(750, 500));
+        setAutoRequestFocus(false);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(720, 600));
 
+        jPanel1.setBackground(new java.awt.Color(10, 229, 183));
         jPanel1.setMaximumSize(new java.awt.Dimension(610, 426));
-        jPanel1.setPreferredSize(new java.awt.Dimension(610, 426));
+        jPanel1.setOpaque(false);
+        jPanel1.setPreferredSize(new java.awt.Dimension(640, 426));
         jPanel1.setRequestFocusEnabled(false);
 
-        premiumCheckBox.setText("Premium");
+        premiumCheckBox.setBackground(new java.awt.Color(10, 229, 183));
+        premiumCheckBox.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        premiumCheckBox.setForeground(new java.awt.Color(250, 250, 250));
+        premiumCheckBox.setText("PREMIUM");
         premiumCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 premiumCheckBoxActionPerformed(evt);
             }
         });
 
-        normalCheckBox.setText("Normal");
+        normalCheckBox.setBackground(new java.awt.Color(10, 229, 183));
+        normalCheckBox.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        normalCheckBox.setForeground(new java.awt.Color(250, 250, 250));
+        normalCheckBox.setText("NORMAL");
         normalCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 normalCheckBoxActionPerformed(evt);
             }
         });
 
-        businessCheckBox.setText("Business");
+        businessCheckBox.setBackground(new java.awt.Color(10, 229, 183));
+        businessCheckBox.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        businessCheckBox.setForeground(new java.awt.Color(250, 250, 250));
+        businessCheckBox.setText("BUSINESS");
         businessCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 businessCheckBoxActionPerformed(evt);
             }
         });
 
+        gameCB.setBackground(new java.awt.Color(250, 250, 250));
+        gameCB.setFont(new java.awt.Font("DialogInput", 1, 12)); // NOI18N
         gameCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gameCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         gameCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gameCBActionPerformed(evt);
             }
         });
 
+        premiumTP.setBackground(new java.awt.Color(250, 250, 250));
         jScrollPane3.setViewportView(premiumTP);
 
-        selectLB.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        selectLB.setText("Select A SEAT");
+        selectLB.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        selectLB.setForeground(new java.awt.Color(250, 250, 250));
+        selectLB.setText("SELECT");
 
+        businessTP.setBackground(new java.awt.Color(250, 250, 250));
         jScrollPane4.setViewportView(businessTP);
 
+        normalTP.setBackground(new java.awt.Color(250, 250, 250));
+        normalTP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        normalTP.setToolTipText("");
         jScrollPane5.setViewportView(normalTP);
 
-        exchangeBtn.setText("Exchange!");
+        exchangeBtn.setBackground(new java.awt.Color(250, 250, 250));
+        exchangeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/icons8_Refresh_24px_3.png"))); // NOI18N
         exchangeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exchangeBtnActionPerformed(evt);
             }
         });
 
-        nextBtn1.setText("Next");
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/Three Leaf Clover_99px.png"))); // NOI18N
+
+        nextBtn1.setBackground(new java.awt.Color(10, 229, 183));
+        nextBtn1.setForeground(new java.awt.Color(10, 229, 183));
+        nextBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/forward1.png"))); // NOI18N
         nextBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextBtn1ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setBackground(new java.awt.Color(10, 229, 183));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/image3727.png"))); // NOI18N
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
             }
         });
 
@@ -212,42 +280,52 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(47, 47, 47)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(218, 218, 218)
-                        .addComponent(selectLB))
+                        .addComponent(exchangeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(237, 237, 237)
-                                .addComponent(gameCB, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(exchangeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(premiumCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(64, 64, 64)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(businessCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(59, 59, 59)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(premiumCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(92, 92, 92)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(businessCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(84, 84, 84)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(normalCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nextBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(62, Short.MAX_VALUE))
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(39, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(gameCB, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(177, 177, 177)
+                        .addComponent(selectLB)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nextBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(selectLB)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gameCB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(selectLB)
+                        .addGap(18, 18, 18)
+                        .addComponent(gameCB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(nextBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(businessCheckBox)
                     .addComponent(premiumCheckBox)
@@ -257,33 +335,70 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(exchangeBtn)
-                    .addComponent(nextBtn1))
-                .addGap(14, 14, 14))
+                    .addComponent(jLabel6))
+                .addGap(17, 17, 17))
         );
 
+        jPanel3.setBackground(new java.awt.Color(10, 229, 183));
+
+        cardNumTF.setForeground(new java.awt.Color(250, 250, 250));
         cardNumTF.setText("Card Number");
+        cardNumTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cardNumTFMouseClicked(evt);
+            }
+        });
 
+        monthTF.setForeground(new java.awt.Color(250, 250, 250));
         monthTF.setText("MM");
+        monthTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                monthTFMouseClicked(evt);
+            }
+        });
 
-        yearTF.setText("YYYY");
+        yearTF.setForeground(new java.awt.Color(250, 250, 250));
+        yearTF.setText("YY");
+        yearTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                yearTFMouseClicked(evt);
+            }
+        });
 
+        ccvTF.setForeground(new java.awt.Color(250, 250, 250));
         ccvTF.setText("CCV");
+        ccvTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ccvTFMouseClicked(evt);
+            }
+        });
+        ccvTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ccvTFActionPerformed(evt);
+            }
+        });
 
+        nameTF.setForeground(new java.awt.Color(250, 250, 250));
         nameTF.setText("Name on Card");
+        nameTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameTFMouseClicked(evt);
+            }
+        });
 
-        rememberCardCB.setText("Remeber this card?");
-
-        backBtn2.setText("Back");
+        backBtn2.setBackground(new java.awt.Color(250, 250, 250));
+        backBtn2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/Back_26px.png"))); // NOI18N
         backBtn2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backBtn2ActionPerformed(evt);
             }
         });
 
-        nextBtn3.setText("Next");
+        nextBtn3.setBackground(new java.awt.Color(250, 250, 250));
+        nextBtn3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/Forward_26px.png"))); // NOI18N
         nextBtn3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextBtn3ActionPerformed(evt);
@@ -295,53 +410,53 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(210, 210, 210)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(monthTF, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(yearTF, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(ccvTF, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(rememberCardCB)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cardNumTF)
-                        .addComponent(nameTF, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)))
-                .addContainerGap(218, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(backBtn2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(nextBtn3)
                 .addGap(33, 33, 33))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(210, 210, 210)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardNumTF, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(monthTF, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(yearTF, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(ccvTF, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(cardNumTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addContainerGap()
+                .addComponent(cardNumTF, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(monthTF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(yearTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ccvTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(monthTF, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yearTF, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ccvTF, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rememberCardCB)
-                .addGap(29, 29, 29)
+                .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nextBtn3)
                     .addComponent(backBtn2))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
 
+        jPanel4.setBackground(new java.awt.Color(10, 229, 183));
+        jPanel4.setToolTipText("");
         jPanel4.setPreferredSize(new java.awt.Dimension(410, 220));
 
         summaryLB.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        summaryLB.setForeground(new java.awt.Color(250, 250, 250));
         summaryLB.setText("Summary:");
 
-        jButton1.setText("Exit");
+        jButton1.setBackground(new java.awt.Color(250, 250, 250));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/Exit_32px.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -349,7 +464,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         });
 
         summaryTA.setEditable(false);
-        summaryTA.setBackground(new java.awt.Color(204, 204, 204));
+        summaryTA.setBackground(new java.awt.Color(250, 250, 250));
         summaryTA.setColumns(20);
         summaryTA.setRows(5);
         jScrollPane2.setViewportView(summaryTA);
@@ -363,24 +478,22 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addComponent(summaryLB, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(208, 208, 208))
+                .addGap(262, 262, 262))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(summaryLB, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)))
+                .addGap(25, 25, 25)
+                .addComponent(summaryLB, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
                 .addComponent(jButton1)
                 .addGap(15, 15, 15))
         );
@@ -557,6 +670,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(10, 229, 183));
+
+        jLabel3.setForeground(new java.awt.Color(250, 250, 250));
         jLabel3.setText("*First name:");
 
         fNameTA.addActionListener(new java.awt.event.ActionListener() {
@@ -608,16 +724,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setText("Would you like your package to include a meal?");
+        mealLbl.setForeground(new java.awt.Color(250, 250, 250));
+        mealLbl.setText("Choose  you meal:");
 
-        mealCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mealCheckBoxActionPerformed(evt);
-            }
-        });
-
+        jLabel12.setForeground(new java.awt.Color(250, 250, 250));
         jLabel12.setText("Do you want to receive future special offer?");
 
+        phoneCheckBox.setBackground(new java.awt.Color(10, 229, 183));
+        phoneCheckBox.setForeground(new java.awt.Color(250, 250, 250));
         phoneCheckBox.setText("Phone");
         phoneCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -625,6 +739,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
+        emailCheckBox.setBackground(new java.awt.Color(10, 229, 183));
+        emailCheckBox.setForeground(new java.awt.Color(250, 250, 250));
         emailCheckBox.setText("Email");
         emailCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -632,106 +748,132 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        nextBtn2.setText("Next");
+        nextBtn2.setBackground(new java.awt.Color(250, 250, 250));
+        nextBtn2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/Forward_26px.png"))); // NOI18N
         nextBtn2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextBtn2ActionPerformed(evt);
             }
         });
 
-        backBtn1.setText("Back");
+        backBtn1.setBackground(new java.awt.Color(250, 250, 250));
+        backBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/exchange/app/Back_26px.png"))); // NOI18N
         backBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backBtn1ActionPerformed(evt);
             }
         });
 
+        jLabel13.setForeground(new java.awt.Color(250, 250, 250));
         jLabel13.setText("*Second name:");
 
+        jLabel14.setForeground(new java.awt.Color(250, 250, 250));
         jLabel14.setText("*Unique ID:");
 
+        jLabel4.setForeground(new java.awt.Color(250, 250, 250));
         jLabel4.setText("Age:");
 
+        jLabel5.setForeground(new java.awt.Color(250, 250, 250));
         jLabel5.setText("Gender:");
 
-        jLabel15.setText("*Quantity:");
+        qtyLbl.setForeground(new java.awt.Color(250, 250, 250));
+        qtyLbl.setText("*Quantity:");
 
+        jLabel16.setForeground(new java.awt.Color(250, 250, 250));
         jLabel16.setText("*Email:");
 
+        jLabel17.setForeground(new java.awt.Color(250, 250, 250));
         jLabel17.setText("Phone:");
+
+        totalTA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalTAActionPerformed(evt);
+            }
+        });
+
+        parkCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        parkCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parkCBActionPerformed(evt);
+            }
+        });
+
+        parkLbl.setForeground(new java.awt.Color(250, 250, 250));
+        parkLbl.setText("Where would  you like to park?");
+
+        mealCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(backBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(nextBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mealCheckBox)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(totalTA, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(phoneCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(emailCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(emailTA, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ageTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(fNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(lNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel14)
-                                .addGap(18, 18, 18)
-                                .addComponent(uniqueIDTA, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(70, 70, 70)
-                                        .addComponent(genderTA, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(32, 32, 32)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(uniqueIDTA, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(parkLbl)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(ageTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(genderTA, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(emailTA, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel17)
+                                        .addComponent(qtyLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(backBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(9, 9, 9)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(mealCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel17)
-                                                .addGap(19, 19, 19))
-                                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(9, 9, 9)
-                                        .addComponent(quantityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                                            .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(3, 3, 3)
+                                                .addComponent(quantityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(parkCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(70, 70, 70)
+                                    .addComponent(phoneCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(emailCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addGap(204, 204, 204)
+                                    .addComponent(nextBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(mealLbl))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -745,28 +887,34 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(ageTA)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(genderTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(quantityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(qtyLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quantityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mealCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneCheckBox)
-                    .addComponent(emailCheckBox))
-                .addGap(49, 49, 49)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backBtn1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(mealCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mealLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(parkCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(parkLbl))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneCheckBox)
+                            .addComponent(emailCheckBox))
+                        .addGap(35, 35, 35)
+                        .addComponent(backBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(nextBtn2))
-                .addGap(24, 24, 24))
+                .addGap(56, 56, 56))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -774,49 +922,47 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(65, 65, 65)
-                            .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(596, 596, 596)))
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(50, 50, 50)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(28, 28, 28)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -828,23 +974,39 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         seatType = new Seat(obj.get(gameCB.getSelectedIndex()).getGameName(),obj.get(gameCB.getSelectedIndex()).getGamePrice(),
         obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable(),obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable(),
         obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable());
+        current = 2;
         seatCheckRadioClicked(2);
          System.out.println(obj.get(gameCB.getSelectedIndex()).getGameName() + " " + ((Seat) seatType).getTicketId() );
     }//GEN-LAST:event_normalCheckBoxActionPerformed
 
     private void gameCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameCBActionPerformed
         // TODO add your handling code here:
-        
+        try {
+            getContentPane().validate();
+            getContentPane().repaint();
+            seatCheckRadioClicked(4);
+
+        } catch (NullPointerException e) {
+
+        }
     }//GEN-LAST:event_gameCBActionPerformed
 
     private void nextBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn3ActionPerformed
         // TODO add your handling code here:
+//        cardValidation();
+//        monthValidation();
+//        yearValidation();
+//        ccvValidation();
+//        nameOnCardValidation();
         jPanel4.setVisible(true); //go to summary page
-        jPanel3.setVisible(false); //close filling card detail page 
-        meal = mealCheckBox.isSelected();
+        jPanel3.setVisible(false); //close filling card detail page
+//        meal = mealCheckBox.isSelected();
         phoneOffer = phoneCheckBox.isSelected();
         emailOffer = emailCheckBox.isSelected();
         /***********/
+        carPark = parkCB.getSelectedItem().toString();
+        meal = mealCB.getSelectedItem().toString();
+
         fName = fNameTA.getText();
         lName = lNameTA.getText();
         uniqueID = uniqueIDTA.getText();
@@ -857,8 +1019,52 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         month = monthTF.getText();
         year = yearTF.getText();
         ccv = ccvTF.getText();
-        
-        Records records = new Records(fName,lName,uniqueID,age,gender,qty,email,phoneNo,meal,phoneOffer,emailOffer,cardNumber,month,year,ccv);
+
+        Records records;
+        if(!cardNumVa){
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate card number!");
+            jPanel3.setVisible(true);
+            jPanel4.setVisible(false);
+        }
+        else if(!monthVa){
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate an appropriate month!");
+            jPanel3.setVisible(true);
+            jPanel4.setVisible(false);
+        }
+        else if(!yearVa){
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate an appropriate year!");
+            jPanel3.setVisible(true);
+            jPanel4.setVisible(false);
+        }
+        else if(!ccvVa){
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate an appropriate CCV number!");
+            jPanel3.setVisible(true);
+            jPanel4.setVisible(false);
+        }
+        else if(!nameVa){
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate an appropriate name on card!");
+            jPanel3.setVisible(true);
+            jPanel4.setVisible(false);
+        }else{
+            jPanel3.setVisible(false);
+            jPanel4.setVisible(true);
+        }
+//        if (seatType instanceof BusinessSeat) {
+//            qty = "N/A";
+//        } else {
+//            carPark = "N/A";
+//            meal = "N/A";
+//        }
+        if (seatType instanceof BusinessSeat) {
+            records = new Records(fName,lName,uniqueID,age,gender,Integer.toString(((BusinessSeat)seatType).getCapacity()),meal,phoneNo,meal,phoneOffer,emailOffer,cardNumber,month,year,ccv);
+        } else if (seatType instanceof PremiumSeat) {
+            records = new Records(fName,lName,uniqueID,age,gender,qty,meal,carPark,email,phoneNo,phoneOffer,emailOffer,cardNumber,month,year,ccv);
+        } else {
+            records = new Records(fName,lName,uniqueID,age,gender,qty,email,phoneNo,meal,phoneOffer,emailOffer,cardNumber,month,year,ccv);
+        }
+
+
+
 //        System.out.println("fName: " + records.getfName());
 //        System.out.println("lName: "+ records.getlName());
 //        System.out.println("uniqueID: "+records.getUniqueID());
@@ -871,32 +1077,82 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 //        System.out.println("month: "+records.getMonth());
 //        System.out.println("year: "+records.getYear());
 //        System.out.println("ccv: "+records.getCcv());
-        
+
 //        records.showDetails();
-        
-        
+
+
 //        JOptionPane.showMessageDialog(null,details.size());
         readDetails();
-        if(checkID()){
-            JOptionPane.showMessageDialog(null,"youve already bought a ticket");
-        } else{
+        if(cardNumVa == true && monthVa == true && yearVa == true && ccvVa == true && nameVa && true){
             details.add(records);
             saveDetails();
         }
+
 //        for(Records i: details){
 //            System.out.println(i.getUniqueID());
-            
+
 //        }
-        
+
         summaryTA.setText(String.format("Thank you %s.\n Your  %s ticket(s) to %s\n has been successfully purchased and can be your validation codes\n can be found in file.txt",fNameTA.getText(),
         quantityCombo.getSelectedItem(),gameCB.getSelectedItem()));
         writeGamesToFile();
-        
-    }//GEN-LAST:event_nextBtn3ActionPerformed
 
+    }//GEN-LAST:event_nextBtn3ActionPerformed
+    //-------------------------------- credit card page validation methods----------------------//
+    public boolean cardValidation(){
+        cardNumVa = true;
+        String card = cardNumTF.getText();
+        Pattern p4 = Pattern.compile("\\d{13,16}");
+        Matcher m4 = p4.matcher(card);
+        if(!m4.find()){
+            cardNumVa = false;
+        }
+        return cardNumVa;
+    }
+    public boolean monthValidation(){
+        monthVa = true;
+        String month = monthTF.getText();
+        Pattern p5 = Pattern.compile("^1[0-2]$|^0[1-9]$");
+        Matcher m5 = p5.matcher(month);
+        if(!m5.find()){
+            monthVa = false;
+        }
+        return monthVa;
+    }
+    public boolean yearValidation(){
+        yearVa = true;
+        String year = yearTF.getText();
+        Pattern p6 = Pattern.compile("^\\d{4}$");
+        Matcher m6 = p6.matcher(year);
+        if(!m6.find()){
+            yearVa = false;
+        }
+        return yearVa;
+    }
+    public boolean ccvValidation(){
+        ccvVa = true;
+        String ccv = ccvTF.getText();
+        Pattern p7 = Pattern.compile("^\\d{3}$");
+        Matcher m7 = p7.matcher(ccv);
+        if(!m7.find()){
+            ccvVa = false;
+        }
+        return ccvVa;
+    }
+    public boolean nameOnCardValidation(){
+        nameVa = true;
+        String name = nameTF.getText();
+        Pattern p8 = Pattern.compile("^[\\p{L} .'-]+$");
+        Matcher m8 = p8.matcher(name);
+        if(!m8.find()){
+            nameVa = false;
+        }
+        return nameVa;
+    }
+//-----------------------------------------------------------------------------//
     private void exchangeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exchangeBtnActionPerformed
         // TODO add your handling code here:
-        jPanel5.setVisible(true);// open submit or request page 
+        jPanel5.setVisible(true);// open submit or request page
         jPanel1.setVisible(false);//close down selecting seat page
     }//GEN-LAST:event_exchangeBtnActionPerformed
 
@@ -908,10 +1164,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
     private void requestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestBtnActionPerformed
         // TODO add your handling code here:
-        jPanel8.setVisible(true);//open available slot page 
+        jPanel8.setVisible(true);//open available slot page
         jPanel5.setVisible(false);//close down submit or request page
-        
-        
+
+
     }//GEN-LAST:event_requestBtnActionPerformed
 
     private void backBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtn3ActionPerformed
@@ -923,19 +1179,19 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private void backBtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtn4ActionPerformed
         // TODO add your handling code here:
         jPanel5.setVisible(true);//open submit or request page
-        jPanel6.setVisible(false);//close down seeat ID and card number page 
+        jPanel6.setVisible(false);//close down seeat ID and card number page
     }//GEN-LAST:event_backBtn4ActionPerformed
 
     private void submitBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtn2ActionPerformed
         // TODO add your handling code here:
-        
+
         readDetails();
         boolean isSubmitted = false;
         for(int i = 0; i < details.size(); i++) {
             System.out.println(details.get(i).getUniqueID());
             if(details.get(i).getUniqueID().equals(submitIdTF.getText()) && details.get(i).getCardNumber().equals(cardSubmitTF.getText())) {
-                jPanel7.setVisible(true);// open congratz page, submitting seat ID and card number successfully  
-                jPanel6.setVisible(false);// close down seat ID and card Number page 
+                jPanel7.setVisible(true);// open congratz page, submitting seat ID and card number successfully
+                jPanel6.setVisible(false);// close down seat ID and card Number page
                 isSubmitted = true;
                 addNewAvailableTicket(details.get(i));
                 //Create a new function to write the item to a new file
@@ -947,7 +1203,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         if (!isSubmitted) {
             JOptionPane.showMessageDialog(null, "Unsuccessful");
         }
-        
+
     }//GEN-LAST:event_submitBtn2ActionPerformed
     public void populateScrollPane(){
 //        availableSlotLB.getViewport().remove(1);
@@ -957,7 +1213,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 //        jScrollPane1.add(availableSlotLB, "1");
 //        availableSlotLB.addElement(gameCB.getSelectedItem());
 //        availableSlotLB.addItem
-//        jList1.add(this, WIDTH);        
+//        jList1.add(this, WIDTH);
 //        jList1.add(fName, jScrollPane1);
 
 //        availableSlotLB.
@@ -982,37 +1238,36 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         } catch(IOException | ClassNotFoundException e){
             System.out.println("crashing on read " + e);
 
+        }
 
-        } 
-        
         availableGamesForTrade.add(newGame);
-       
-                try{
-            
+
+        try{
+
             File file = new File("Trading.dat");
             FileOutputStream output = new FileOutputStream(file);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);            
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);
             objectOutputStream.writeObject(availableGamesForTrade);
             objectOutputStream.close();
-            
+
         } catch(IOException e){
             System.out.println("Crashing on read");
         }
-    
+
     try{
-            
+
             File file = new File("Trading.dat");
             FileOutputStream output = new FileOutputStream(file);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);            
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);
             objectOutputStream.writeObject(availableGamesForTrade);
             objectOutputStream.close();
 
         } catch(IOException e){
             System.out.println("Crashing on write");
-        }            
-        
+        }
+
     }
-    
+
     private void backBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtn2ActionPerformed
         // TODO add your handling code here:
         jPanel2.setVisible(true);// go back to filling detail page
@@ -1041,7 +1296,12 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
     private void quantityComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityComboActionPerformed
         // TODO add your handling code here:
-        
+        quantityValue();
+
+        String totalDisplay = Double.toString(total);
+        totalTA.setText(totalDisplay);
+        System.out.println(total);
+
     }//GEN-LAST:event_quantityComboActionPerformed
 
     private void emailTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTAActionPerformed
@@ -1052,66 +1312,118 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneTAActionPerformed
 
-    private void mealCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mealCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mealCheckBoxActionPerformed
-
-    private void phoneCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_phoneCheckBoxActionPerformed
-
-    private void emailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailCheckBoxActionPerformed
-
     private void backBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtn1ActionPerformed
         // TODO add your handling code here:
         jPanel1.setVisible(true);// go back to seat page
         jPanel2.setVisible(false);//close filling detail page
-        
-        
+
+
     }//GEN-LAST:event_backBtn1ActionPerformed
 
     private void nextBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn2ActionPerformed
         // TODO add your handling code here:
-        emptyValidation();
+        requiredFieldValidation();
+        emailValidation();
         nameValidation();
         ageValidation();
-        //phoneValidation();
+        genderValidation();
 
-        
+
+
+
+
+
+        //-----------------------//
+        String phone = phoneTA.getText();// phone validation using regex
+        Pattern p1 = Pattern.compile(phonePatternIRE);// anything outside phonePatternIRE aren't allowed
+        Matcher m1 = p1.matcher(phone);
+        //----------------------//
+        //validate required fields
+        if(!emptyVa){
+            JOptionPane.showMessageDialog(null, "Please fill in required details");
+            jPanel3.setVisible(false);
+            jPanel2.setVisible(true);
+        }
+
+        //validate if the fName and lName only contains character not numbers and special letter
+        else if(!characterVa){
+            JOptionPane.showMessageDialog(null, "Only alphabets are allowed in First name and Second name!");
+              jPanel3.setVisible(false);
+            jPanel2.setVisible(true);
+        }
+
+        //validate if the age fields only contains numbers and prevent users to put in unrealistic age
+
+        else if(!ageVa){// age can,t be above 100
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate age!");
+              jPanel3.setVisible(false);
+            jPanel2.setVisible(true);
+        }
+
+        //--------------------Phone validation----------------------//
+        else if(!m1.find()){//if the phone number from user doesn't match the pattern, make them type in again
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate phone number!");
+              jPanel3.setVisible(false);
+            jPanel2.setVisible(true);
+        }
+
+        //if typed in gender is non-character or the length of text is unrealistic make them type in again!
+        else if(!genderVa|| genderTA.getText().length()>8){
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate gender!");
+              jPanel3.setVisible(false);
+            jPanel2.setVisible(true);
+        }
+
+        else if(!emailVa){
+            JOptionPane.showMessageDialog(null, "Please type in an appropriate email!");
+              jPanel3.setVisible(false);
+            jPanel2.setVisible(true);
+        }
+        else{
+            jPanel3.setVisible(true);// open filling card detail page
+            jPanel2.setVisible(false);//close filling detail page
+        }
+
+
         //validate required fields
 //        if(emptyVa == false){
 //            JOptionPane.showMessageDialog(null, "Please fill in required details");
-//            
-//        } 
-//        
+//
+//        }
+//
 //        //validate if the fName and lName only contains character not numbers and special letter
 //        else if(characterVa == false){
 //            JOptionPane.showMessageDialog(null, "Only alphabets are allowed in this field");
 //        }
-//        
+//
 //        //validate if the age fields only contains numbers and prevent users to put in unrealistic age
-//        
+//
 //        else if(ageVa == false || Integer.parseInt(ageTA.getText()) > 100){// age can,t be above 100
 //            JOptionPane.showMessageDialog(null, "Please type in an appropriate age!");
 //        } else {
-            jPanel3.setVisible(true);// open filling card detail page
-            jPanel2.setVisible(false);//close filling detail page  
-            
+
 //            activeIndex = gameCB.getSelectedIndex();
-            
-            if(seatType instanceof Seat){
-                obj.get(gameCB.getSelectedIndex()).setNormalSeatsAvailable(obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable()-1);
+
+
+
+
+            if(seatType instanceof PremiumSeat){
+                obj.get(gameCB.getSelectedIndex()).setPremiumSeatAvailable(obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable()-1);
+                mealCB.setVisible(true);
+                mealLbl.setVisible(true);
+                parkLbl.setVisible(true);
+                parkCB.setVisible(true);
             } else if(seatType instanceof BusinessSeat){
                 obj.get(gameCB.getSelectedIndex()).setBusinessSeatAvailable(obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable()-1);
             } else {
-                obj.get(gameCB.getSelectedIndex()).setPremiumSeatAvailable(obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable()-1);
-                
+                obj.get(gameCB.getSelectedIndex()).setNormalSeatsAvailable(obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable()-1);
             }
-            System.out.println(obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable());
-//        }
-        
+//            System.out.println(obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable());
+////        }
+//            System.out.println(obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable());
+//            System.out.println(obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable());
+
+
         /*
         if(phoneVa == false){
             JOptionPane.showMessageDialog(null, "Please type in an appropriate phone number!");
@@ -1119,17 +1431,31 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             jPanel3.setVisible(false);
         }
        */
-        
+         if(checkID()){
+            JOptionPane.showMessageDialog(null,"youve already bought a ticket");
+             jPanel2.setVisible(true);
+             jPanel3.setVisible(false);
+        }
     }//GEN-LAST:event_nextBtn2ActionPerformed
-    public boolean emptyValidation(){// check if the required text fields are empty
+   //----------------filling detail page validation methods-------------------------------//
+    public boolean requiredFieldValidation(){// check if the required text fields are empty
         emptyVa = true;
         if(fNameTA.getText().equals("") || lNameTA.getText().equals("") || uniqueIDTA.getText().equals("") || emailTA.getText().equals("")){
             emptyVa = false;
         }
         return emptyVa;
     }
-    
-    
+    public boolean genderValidation(){
+        genderVa = true;
+        String gender = genderTA.getText(); //gender validation using regex
+        Pattern p2 = Pattern.compile("[a-zA-Z] |( -\\s)?");// non-word character aren't allowed, white space is allowed
+        Matcher m2 = p2.matcher(gender);
+        if(!m2.find()){
+            genderVa = false;
+        }
+        return genderVa;
+    }
+
     public boolean nameValidation(){ // check if the first name and last name contains character not numbers
         characterVa = true;
         fullName = fNameTA.getText() + lNameTA.getText();
@@ -1140,7 +1466,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         }
         return characterVa;
     }
-    
+
     public boolean ageValidation(){// check if the inout age is appropriate, can't contain a character
         ageVa = true;
         for(char letter : ageTA.getText().toCharArray()){
@@ -1150,10 +1476,21 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         }
         return ageVa;
     }
-    
+
+    public boolean emailValidation(){
+        emailVa = true;
+        String email = emailTA.getText(); //@reference https://stackoverflow.com/questions/8204680/java-regex-email
+        Pattern p3 = Pattern.compile("[a-zA-Z0-9\\p{Punct}]+@[a-zA-Z]++.[a-zA-Z]{2,4}+|[a-zA-Z0-9\\p{Punct}]+@[a-zA-Z]+.[a-zA-Z]{2,4}+.[a-zA-Z]{2}$");
+        Matcher m3 = p3.matcher(email);
+        if(!m3.find()){
+            emailVa = false;
+        }
+        return emailVa;
+    }
+
     public void createSeatsForGames(){
         try{
-            
+
             File file = new File("output.dat");
             FileOutputStream output = new FileOutputStream(file);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);
@@ -1174,18 +1511,18 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 //                System.out.println(1);
 
             }
-            
+
             objectOutputStream.writeObject(y);
             objectOutputStream.close();
 
         } catch(IOException e){
-            
+
         }
     }
-    
+
         public void writeGamesToFile(){
         try{
-            
+
             File file = new File("output.dat");
             FileOutputStream output = new FileOutputStream(file);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(output);
@@ -1206,7 +1543,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 ////                System.out.println(1);
 //
 //            }
-            
+
             objectOutputStream.writeObject(obj);
             objectOutputStream.close();
 
@@ -1214,9 +1551,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             System.out.println("Crashing on write");
         }
     }
-        
+
         public void getAvailaibleGames(){
-        gameCB.removeAllItems();        
+        gameCB.removeAllItems();
         try{
             File file = new File("output.dat");
             FileInputStream input = new FileInputStream(file);
@@ -1236,9 +1573,51 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
-        
-   
-    
+
+    //------------------Phony version of the total display--------//
+     public int quantityValue(){
+
+//        if(quantityCombo.getSelectedItem().equals("1")){
+//            if(mealCheckBox.isSelected()){
+//                totalQuantity = seatCost*1;
+//                total = totalQuantity+10;
+//            }else{
+//                totalQuantity = seatCost*1;
+//                total = totalQuantity+0;
+//            }
+//        }
+//        else if(quantityCombo.getSelectedItem().equals("2")){
+//            if(mealCheckBox.isSelected()){
+//                totalQuantity = seatCost*2;
+//                total = totalQuantity+10;
+//            }else{
+//                totalQuantity = seatCost*2;
+//                total = totalQuantity+0;
+//            }
+//        }
+//        else if(quantityCombo.getSelectedItem().equals("3")){
+//             if(mealCheckBox.isSelected()){
+//                totalQuantity = seatCost*3;
+//                total = totalQuantity+10;
+//            }else{
+//                totalQuantity = seatCost*3;
+//                total = totalQuantity+0;
+//            }
+//        }
+//        else if(quantityCombo.getSelectedItem().equals("4")){
+//             if(mealCheckBox.isSelected()){
+//                totalQuantity = seatCost*4;
+//                total = totalQuantity+10;
+//            }else{
+//                totalQuantity = seatCost*4;
+//                total = totalQuantity+0;
+//            }
+//        }
+        return total;
+
+    }
+    //-----------------------------------------------------------------//
+
     /*
     public boolean phoneValidation(){//check if the phone text field contains only numbers
         phoneVa = true;
@@ -1248,11 +1627,11 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 phoneVa = true;
             }else if(!Character.isDigit(phone))
         }
-        
+
         return phoneVa;
     }
     */
-    
+
     public Boolean checkID(){
             //System.out.println(1);
         for(Records i: details){
@@ -1272,14 +1651,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Written!");
 
             oos.close();
-            
+
         } catch (IOException e){
             System.out.println(e);
-            
+
         }
-       
+
     }
-    
+
     public void readDetails(){
         try{
             File f = new File("Records.dat");
@@ -1289,21 +1668,22 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,details.size());
             ois.close();
             for (Records i: details) {
-//                System.out.println("Name: " + i.getfName());
+                System.out.println("Name: " + i.getfName());
             }
         } catch(IOException | ClassNotFoundException e){
-            System.out.println("crashing on read");
+            System.out.println("crashing on read" + e);
 
-        } 
-       
+        }
+
     }
-    
+
     private void premiumCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_premiumCheckBoxActionPerformed
         // TODO add your handling code here:
         seatType = new PremiumSeat(obj.get(gameCB.getSelectedIndex()).getGameName(),obj.get(gameCB.getSelectedIndex()).getGamePrice(),
         obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable(),obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable(),
         obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable());
         seatCheckRadioClicked(1);
+        current = 1;
     }//GEN-LAST:event_premiumCheckBoxActionPerformed
 
     private void businessCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_businessCheckBoxActionPerformed
@@ -1312,18 +1692,59 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable(),obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable(),
         obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable());
         seatCheckRadioClicked(0);
+        current = 0;
     }//GEN-LAST:event_businessCheckBoxActionPerformed
 
     private void nextBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn1ActionPerformed
         // TODO add your handling code here:
-        if(!businessCheckBox.isSelected() && !premiumCheckBox.isSelected() && !normalCheckBox.isSelected()){
-            JOptionPane.showMessageDialog(null,"Please Select a seat.");
-        } else{
-            jPanel2.setVisible(true);// open filling details page
-            jPanel1.setVisible(false);// close seat page (first page)  
-        }
 
-        
+//        if(!businessCheckBox.isSelected() && !premiumCheckBox.isSelected() && !normalCheckBox.isSelected()){
+//            JOptionPane.showMessageDialog(null,"Please Select a seat.");
+//        } else{
+//            jPanel2.setVisible(true);// open filling details page
+//            jPanel1.setVisible(false);// close seat page (first page)
+//
+//        totalTA.setText((seatType.getPrice())+"");
+//
+//        if(seatType instanceof PremiumSeat){
+//                mealCB.setVisible(true);
+//                mealLbl.setVisible(true);
+//                parkLbl.setVisible(true);
+//                parkCB.setVisible(true);
+//                mealCB.removeAllItems();
+//                parkCB.removeAllItems();
+//                System.out.println(((PremiumSeat)seatType).getFastTrack());
+////                System.out.println(((PremiumSeat)seatType).getMeal()[1]);
+////                System.out.println(((PremiumSeat)seatType).getParking()[1]);
+//                for (String i: ((PremiumSeat)seatType).getParking()){
+//                    parkCB.addItem(i);
+//                }
+//                for (String i: ((PremiumSeat)seatType).getMeal()){
+//                    mealCB.addItem(i);
+//                }
+//
+//
+//            } else {
+//                mealCB.setVisible(false);
+//                mealLbl.setVisible(false);
+//                parkLbl.setVisible(false);
+//                parkCB.setVisible(false);
+//
+//        }
+//        if (seatType instanceof BusinessSeat) {
+//            quantityCombo.setVisible(false);
+//            qtyLbl.setVisible(false);
+//            mealCB.setVisible(true);
+//            mealLbl.setVisible(true);
+//            mealCB.removeAllItems();
+//            for (String i: ((BusinessSeat)seatType).getMeal()){
+//                    mealCB.addItem(i);
+//            }
+//        } else {
+//            quantityCombo.setVisible(true);
+//            qtyLbl.setVisible(true);
+//        }
+//    }
     }//GEN-LAST:event_nextBtn1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1331,31 +1752,135 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null,"Thank You!");
         System.exit(1);
     }//GEN-LAST:event_jButton1ActionPerformed
-    
+
+    private void totalTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalTAActionPerformed
+
+    private void cardNumTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cardNumTFMouseClicked
+        // TODO add your handling code here:
+        cardNumTF.setText("");
+    }//GEN-LAST:event_cardNumTFMouseClicked
+
+    private void monthTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monthTFMouseClicked
+        // TODO add your handling code here:
+          monthTF.setText("");
+    }//GEN-LAST:event_monthTFMouseClicked
+
+    private void yearTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yearTFMouseClicked
+        // TODO add your handling code here:
+         yearTF.setText("");
+    }//GEN-LAST:event_yearTFMouseClicked
+
+    private void ccvTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ccvTFMouseClicked
+        // TODO add your handling code here:
+        ccvTF.setText("");
+    }//GEN-LAST:event_ccvTFMouseClicked
+
+    private void nameTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameTFMouseClicked
+        // TODO add your handling code here:
+        nameTF.setText("");
+    }//GEN-LAST:event_nameTFMouseClicked
+
+    private void phoneCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneCheckBoxActionPerformed
+
+    private void emailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailCheckBoxActionPerformed
+
+    private void parkCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parkCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_parkCBActionPerformed
+
+    private void ccvTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccvTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ccvTFActionPerformed
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        if(!businessCheckBox.isSelected() && !premiumCheckBox.isSelected() && !normalCheckBox.isSelected()){
+            JOptionPane.showMessageDialog(null,"Please Select a seat.");
+        } else{
+            jPanel2.setVisible(true);// open filling details page
+            jPanel1.setVisible(false);// close seat page (first page)
+
+            totalTA.setText((seatType.getPrice())+"");
+
+            if(seatType instanceof PremiumSeat){
+                mealCB.setVisible(true);
+                mealLbl.setVisible(true);
+                parkLbl.setVisible(true);
+                parkCB.setVisible(true);
+                mealCB.removeAllItems();
+                parkCB.removeAllItems();
+                System.out.println(((PremiumSeat)seatType).getFastTrack());
+                //                System.out.println(((PremiumSeat)seatType).getMeal()[1]);
+                //                System.out.println(((PremiumSeat)seatType).getParking()[1]);
+                for (String i: ((PremiumSeat)seatType).getParking()){
+                    parkCB.addItem(i);
+                }
+                for (String i: ((PremiumSeat)seatType).getMeal()){
+                    mealCB.addItem(i);
+                }
+
+            } else {
+                mealCB.setVisible(false);
+                mealLbl.setVisible(false);
+                parkLbl.setVisible(false);
+                parkCB.setVisible(false);
+
+            }
+            if (seatType instanceof BusinessSeat) {
+                quantityCombo.setVisible(false);
+                qtyLbl.setVisible(false);
+                mealCB.setVisible(true);
+                mealLbl.setVisible(true);
+                mealCB.removeAllItems();
+                for (String i: ((BusinessSeat)seatType).getMeal()){
+                    mealCB.addItem(i);
+                }
+            } else {
+                quantityCombo.setVisible(true);
+                qtyLbl.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_jLabel6MouseClicked
+
     private void seatCheckRadioClicked(int clicked){
         JRadioButton x[] = {businessCheckBox,premiumCheckBox,normalCheckBox};
         JScrollPane y[] = {jScrollPane4,jScrollPane3,jScrollPane5};
         JTextPane z[] = {businessTP,premiumTP,normalTP};
-        
-
+//        System.out.println(obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable());
+//        System.out.println(obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable());
+//        System.out.println(obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable());
+        int seatsAvailableType = 0;
+        if (clicked == 0) {
+            seatsAvailableType = obj.get(gameCB.getSelectedIndex()).getBusinessSeatAvailable();
+        } else if (clicked == 1) {
+            seatsAvailableType = obj.get(gameCB.getSelectedIndex()).getPremiumSeatAvailable();
+        } else {
+            seatsAvailableType = obj.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable();
+        }
+        System.out.println(seatsAvailableType);
         for(int i =0; i < x.length; i++){
                 if(i == clicked){
                     x[i].setSelected(true);
                     y[i].setVisible(true);
-
                     z[i].setText(String.format("%s\n%s\n%s",seatType.getSeatName(),seatType.getSeatPrice(),seatType.getSeatArea()));
-                    
+
                 } else {
                     x[i].setSelected(false);
                     y[i].setVisible(false);
                 }
 
-            
+
         }
         getContentPane().validate();
         getContentPane().repaint();
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -1363,7 +1888,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -1390,7 +1915,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ageTA;
@@ -1405,7 +1930,6 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JTextField cardNumTF;
     private javax.swing.JTextField cardSubmitTF;
     private javax.swing.JTextField ccvTF;
-    private java.awt.Choice choice1;
     private javax.swing.JLabel congratzLB;
     private javax.swing.JCheckBox emailCheckBox;
     private javax.swing.JTextField emailTA;
@@ -1414,18 +1938,19 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> gameCB;
     private javax.swing.JTextField genderTA;
     private javax.swing.JButton jButton1;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1440,7 +1965,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField lNameTA;
-    private javax.swing.JCheckBox mealCheckBox;
+    private javax.swing.JComboBox<String> mealCB;
+    private javax.swing.JLabel mealLbl;
     private javax.swing.JTextField monthTF;
     private javax.swing.JTextField nameTF;
     private javax.swing.JButton nextBtn1;
@@ -1448,12 +1974,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JButton nextBtn3;
     private javax.swing.JRadioButton normalCheckBox;
     private javax.swing.JTextPane normalTP;
+    private javax.swing.JComboBox<String> parkCB;
+    private javax.swing.JLabel parkLbl;
     private javax.swing.JCheckBox phoneCheckBox;
     private javax.swing.JTextField phoneTA;
     private javax.swing.JRadioButton premiumCheckBox;
     private javax.swing.JTextPane premiumTP;
+    private javax.swing.JLabel qtyLbl;
     private javax.swing.JComboBox<String> quantityCombo;
-    private javax.swing.JCheckBox rememberCardCB;
     private javax.swing.JButton requestBtn;
     private javax.swing.JButton selectBtn;
     private javax.swing.JLabel selectLB;
@@ -1462,6 +1990,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JTextField submitIdTF;
     private javax.swing.JLabel summaryLB;
     private javax.swing.JTextArea summaryTA;
+    private javax.swing.JTextField totalTA;
     private javax.swing.JTextField uniqueIDTA;
     private javax.swing.JTextField yearTF;
     // End of variables declaration//GEN-END:variables

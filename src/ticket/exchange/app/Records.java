@@ -20,7 +20,7 @@ public class Records implements Serializable {
     private String qty;
     private String email;
     private String phoneNo;
-    private boolean meal;
+    private String meal;
     private boolean phoneOffer;
     private boolean emailOffer;
     private int recordId;
@@ -28,8 +28,16 @@ public class Records implements Serializable {
     private String month;
     private String year;
     private String ccv;
-    
-    public Records(String fName,String lName,String uniqueID, String age,String gender,String qty,String email,String phoneNo,boolean meal,boolean phoneOffer,boolean emailOffer, String cardNumber, String month, String year, String ccv) {
+
+    // Constructor for Premium
+    public Records(String fName,String lName,
+            String uniqueID, String age,String gender,
+            String qty, String meal, String carPark,
+            String email, String phoneNo,
+            boolean phoneOffer, boolean emailOffer,
+            String cardNumber, String month, String year,
+            String ccv
+    ) {
         this.fName = fName;
         this.lName = lName;
         this.uniqueID = uniqueID;
@@ -45,7 +53,57 @@ public class Records implements Serializable {
         this.month = month;
         this.year = year;
         this.ccv = ccv;
-    
+
+    }
+
+    // Constructor for Premium
+    public Records(String fName,String lName,
+            String uniqueID, String age,String gender,
+            String qty, String email, String phoneNo,
+            boolean phoneOffer, boolean emailOffer,
+            String cardNumber, String month, String year,
+            String ccv
+    ) {
+        this.fName = fName;
+        this.lName = lName;
+        this.uniqueID = uniqueID;
+        this.age = age;
+        this.gender = gender;
+        this.qty = meal;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.phoneOffer = phoneOffer;
+        this.emailOffer = emailOffer;
+        this.cardNumber = cardNumber;
+        this.month = month;
+        this.year = year;
+        this.ccv = ccv;
+
+    }
+
+    // Constructor for Premium
+    public Records(String fName,String lName,
+            String uniqueID, String age,String gender,
+            String qty, String meal, String email, String phoneNo,
+            boolean phoneOffer, boolean emailOffer,
+            String cardNumber, String month, String year,
+            String ccv
+    ) {
+        this.fName = fName;
+        this.lName = lName;
+        this.uniqueID = uniqueID;
+        this.age = age;
+        this.gender = gender;
+        this.qty = qty;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.phoneOffer = phoneOffer;
+        this.emailOffer = emailOffer;
+        this.cardNumber = cardNumber;
+        this.month = month;
+        this.year = year;
+        this.ccv = ccv;
+
     }
 
     public String getUniqueID() {
@@ -80,7 +138,7 @@ public class Records implements Serializable {
         return phoneNo;
     }
 
-    public boolean isMeal() {
+    public String getMeal() {
         return meal;
     }
 
@@ -111,12 +169,12 @@ public class Records implements Serializable {
     public String getCcv() {
         return ccv;
     }
-    
-    
-    
 
-    
-    
+
+
+
+
+
     public void showDetails(){
 //        System.out.println(fName);
 //        System.out.println(lName);
