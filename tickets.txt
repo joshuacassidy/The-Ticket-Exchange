@@ -1,0 +1,28 @@
+		Ticket Details
+Ticket Id: 95ISA		Gate: C
+Name: ASD ASD	Passport Number: 12345678A
+Seat Area: Economy Class Seat 	Seat Name: Economy Lounge
+		Ticket Details
+Ticket Id: 5ISA		Gate: B
+Name: sd sdfg	Passport Number: 12345678q
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 6ISA		Gate: B
+Name: sdfg zxc	Passport Number: 12345678w
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 7ISA		Gate: B
+Name: asdf axcv	Passport Number: 12345678a
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 8ISA		Gate: B
+Name: ASDF ZXCV	Passport Number: 12345679d
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 96ISA		Gate: C
+Name: asdf asdf	Passport Number: 12345678g
+Seat Area: Economy Class Seat 	Seat Name: Economy Lounge
