@@ -5,15 +5,30 @@
  */
 package ticket.exchange.app;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+
 /**
  *
- * @author Yo
+ * @author Yo/Josh
  */
 public class TicketExchangeGUI extends javax.swing.JFrame {
    
     /**
      * Creates new form TicketExchangeGUI
      */
+    private SeatType seatType;
+    private ArrayList<Records> details;
+    private boolean recordVa;
     public TicketExchangeGUI() {
        
         initComponents();
@@ -24,8 +39,14 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jPanel6.setVisible(false);
         jPanel7.setVisible(false);
         jPanel8.setVisible(false);
+        jScrollPane4.setVisible(false);
+        jScrollPane3.setVisible(false);
+        jScrollPane5.setVisible(false);
+        details = new ArrayList<>();
+        seatType = new SeatType();
        
     }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,11 +58,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        premiumBtn = new javax.swing.JRadioButton();
-        exchangeBtn = new javax.swing.JButton();
-        normalBtn = new javax.swing.JRadioButton();
-        businessBtn = new javax.swing.JRadioButton();
-        nextBtn1 = new javax.swing.JButton();
+        premiumCheckBox = new javax.swing.JRadioButton();
+        normalCheckBox = new javax.swing.JRadioButton();
+        businessCheckBox = new javax.swing.JRadioButton();
         gameCB = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         premiumTP = new javax.swing.JTextPane();
@@ -50,6 +69,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         businessTP = new javax.swing.JTextPane();
         jScrollPane5 = new javax.swing.JScrollPane();
         normalTP = new javax.swing.JTextPane();
+        exchangeBtn = new javax.swing.JButton();
+        nextBtn1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         cardNumTF = new javax.swing.JTextField();
         monthTF = new javax.swing.JTextField();
@@ -64,6 +85,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         summaryTF = new javax.swing.JTextField();
         summaryTF2 = new javax.swing.JTextField();
         summaryTF3 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         submitBtn = new javax.swing.JButton();
         requestBtn = new javax.swing.JButton();
@@ -84,19 +106,19 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         selectBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
+        fNameTA = new javax.swing.JTextField();
+        lNameTA = new javax.swing.JTextField();
+        uniqueIDTA = new javax.swing.JTextField();
+        ageTA = new javax.swing.JTextField();
+        genderTA = new javax.swing.JTextField();
+        quantityCombo = new javax.swing.JComboBox<>();
+        emailTA = new javax.swing.JTextField();
+        phoneTA = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        mealCheckBox = new javax.swing.JCheckBox();
         jLabel12 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        phoneCheckBox = new javax.swing.JCheckBox();
+        emailCheckBox = new javax.swing.JCheckBox();
         nextBtn2 = new javax.swing.JButton();
         backBtn1 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
@@ -108,32 +130,29 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 700));
 
+        jPanel1.setMaximumSize(new java.awt.Dimension(610, 426));
         jPanel1.setPreferredSize(new java.awt.Dimension(610, 426));
+        jPanel1.setRequestFocusEnabled(false);
 
-        premiumBtn.setText("Premium");
-
-        exchangeBtn.setText("Exchange!");
-        exchangeBtn.addActionListener(new java.awt.event.ActionListener() {
+        premiumCheckBox.setText("Premium");
+        premiumCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exchangeBtnActionPerformed(evt);
+                premiumCheckBoxActionPerformed(evt);
             }
         });
 
-        normalBtn.setText("Normal");
-        normalBtn.addActionListener(new java.awt.event.ActionListener() {
+        normalCheckBox.setText("Normal");
+        normalCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                normalBtnActionPerformed(evt);
+                normalCheckBoxActionPerformed(evt);
             }
         });
 
-        businessBtn.setText("Business");
-
-        nextBtn1.setText("Next");
-        nextBtn1.addActionListener(new java.awt.event.ActionListener() {
+        businessCheckBox.setText("Business");
+        businessCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextBtn1ActionPerformed(evt);
+                businessCheckBoxActionPerformed(evt);
             }
         });
 
@@ -153,12 +172,29 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
         jScrollPane5.setViewportView(normalTP);
 
+        exchangeBtn.setText("Exchange!");
+        exchangeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exchangeBtnActionPerformed(evt);
+            }
+        });
+
+        nextBtn1.setText("Next");
+        nextBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextBtn1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(218, 218, 218)
+                        .addComponent(selectLB))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -171,19 +207,16 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(premiumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(premiumCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(64, 64, 64)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(businessBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(businessCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(59, 59, 59)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(normalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(normalCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nextBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(218, 218, 218)
-                        .addComponent(selectLB)))
+                            .addComponent(nextBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -195,21 +228,19 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addComponent(gameCB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(businessBtn)
-                    .addComponent(premiumBtn)
-                    .addComponent(normalBtn))
+                    .addComponent(businessCheckBox)
+                    .addComponent(premiumCheckBox)
+                    .addComponent(normalCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(52, 52, 52)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(exchangeBtn)
-                            .addComponent(nextBtn1)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exchangeBtn)
+                    .addComponent(nextBtn1))
+                .addGap(14, 14, 14))
         );
 
         cardNumTF.setText("Card Number");
@@ -298,6 +329,13 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Exit");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -311,6 +349,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(summaryTF2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(summaryTF, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(120, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(244, 244, 244))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,7 +365,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addComponent(summaryTF2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(summaryTF3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         submitBtn.setText("Submit");
@@ -369,7 +413,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(requestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
                 .addComponent(backBtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
         );
@@ -498,78 +542,78 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
-        jLabel3.setText("First name:");
+        jLabel3.setText("*First name:");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        fNameTA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                fNameTAActionPerformed(evt);
             }
         });
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        lNameTA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                lNameTAActionPerformed(evt);
             }
         });
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        uniqueIDTA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                uniqueIDTAActionPerformed(evt);
             }
         });
 
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        ageTA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                ageTAActionPerformed(evt);
             }
         });
 
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        genderTA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                genderTAActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        quantityCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        quantityCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                quantityComboActionPerformed(evt);
             }
         });
 
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        emailTA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                emailTAActionPerformed(evt);
             }
         });
 
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        phoneTA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                phoneTAActionPerformed(evt);
             }
         });
 
         jLabel11.setText("Would you like your package to include a meal?");
 
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        mealCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                mealCheckBoxActionPerformed(evt);
             }
         });
 
         jLabel12.setText("Do you want to receive future special offer?");
 
-        jCheckBox2.setText("Phone");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+        phoneCheckBox.setText("Phone");
+        phoneCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
+                phoneCheckBoxActionPerformed(evt);
             }
         });
 
-        jCheckBox3.setText("Email");
-        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+        emailCheckBox.setText("Email");
+        emailCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
+                emailCheckBoxActionPerformed(evt);
             }
         });
 
@@ -587,17 +631,17 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel13.setText("Second name:");
+        jLabel13.setText("*Second name:");
 
-        jLabel14.setText("Unique ID:");
+        jLabel14.setText("*Unique ID:");
 
         jLabel4.setText("Age:");
 
         jLabel5.setText("Gender:");
 
-        jLabel15.setText("Quantity:");
+        jLabel15.setText("*Quantity:");
 
-        jLabel16.setText("Email:");
+        jLabel16.setText("*Email:");
 
         jLabel17.setText("Phone:");
 
@@ -620,39 +664,39 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
+                            .addComponent(mealCheckBox)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(phoneCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(emailCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(emailTA, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ageTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel14)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(uniqueIDTA, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(70, 70, 70)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(genderTA, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(32, 32, 32)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -663,10 +707,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(9, 9, 9)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(quantityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -675,34 +719,34 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(uniqueIDTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField6)
+                    .addComponent(ageTA)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(genderTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(quantityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emailTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1))
+                    .addComponent(mealCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(phoneCheckBox)
+                    .addComponent(emailCheckBox))
                 .addGap(49, 49, 49)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backBtn1)
@@ -715,22 +759,21 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(596, 596, 596)))
                 .addContainerGap(277, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -752,25 +795,21 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(729, Short.MAX_VALUE))
+                .addContainerGap(725, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void normalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normalBtnActionPerformed
+    private void normalCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normalCheckBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_normalBtnActionPerformed
+        seatType = new NormalSeat();
+        seatCheckRadioClicked(2);
+    }//GEN-LAST:event_normalCheckBoxActionPerformed
 
     private void gameCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_gameCBActionPerformed
-
-    private void nextBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn1ActionPerformed
-        // TODO add your handling code here:
-        jPanel2.setVisible(true);// open filling details page
-        jPanel1.setVisible(false);// close seat page (first page)
-    }//GEN-LAST:event_nextBtn1ActionPerformed
 
     private void summaryTF3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryTF3ActionPerformed
         // TODO add your handling code here:
@@ -780,6 +819,26 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         jPanel4.setVisible(true); //go to summary page
         jPanel3.setVisible(false); //close filling card detail page 
+        boolean meal = mealCheckBox.isSelected();
+        boolean phoneOffer = phoneCheckBox.isSelected();
+        boolean emailOffer = emailCheckBox.isSelected();
+        Records records = new Records(fNameTA.getText(),lNameTA.getText(),uniqueIDTA.getText(),ageTA.getText(),genderTA.getText(),quantityCombo.getSelectedItem().toString(),emailTA.getText(),phoneTA.getText(),meal,phoneOffer,emailOffer);
+        records.showDetails();
+
+        
+//        JOptionPane.showMessageDialog(null,details.size());
+        readDetails();
+        if(checkID()){
+            JOptionPane.showMessageDialog(null,"youve already bought a ticket");
+        } else{
+            details.add(records);
+            saveDetails();
+        }
+        for(Records i: details){
+            System.out.println(i.getUniqueID());
+            
+        }
+
     }//GEN-LAST:event_nextBtn3ActionPerformed
 
     private void exchangeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exchangeBtnActionPerformed
@@ -796,7 +855,6 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
     private void requestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestBtnActionPerformed
         // TODO add your handling code here:
-        
         jPanel8.setVisible(true);//open available slot page 
         jPanel5.setVisible(false);//close down submit or request page
         
@@ -827,49 +885,50 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         jPanel3.setVisible(false);// close down filling card detail page
     }//GEN-LAST:event_backBtn2ActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void fNameTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fNameTAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_fNameTAActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void lNameTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lNameTAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_lNameTAActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void uniqueIDTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uniqueIDTAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_uniqueIDTAActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void ageTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ageTAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_ageTAActionPerformed
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void genderTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderTAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    }//GEN-LAST:event_genderTAActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void quantityComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityComboActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        
+    }//GEN-LAST:event_quantityComboActionPerformed
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void emailTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_emailTAActionPerformed
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void phoneTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneTAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+    }//GEN-LAST:event_phoneTAActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void mealCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mealCheckBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_mealCheckBoxActionPerformed
 
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+    private void phoneCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneCheckBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
+    }//GEN-LAST:event_phoneCheckBoxActionPerformed
 
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+    private void emailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailCheckBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
+    }//GEN-LAST:event_emailCheckBoxActionPerformed
 
     private void backBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtn1ActionPerformed
         // TODO add your handling code here:
@@ -879,12 +938,115 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
     private void nextBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn2ActionPerformed
         // TODO add your handling code here:
-        jPanel3.setVisible(true);// open filling card detail page
-        jPanel2.setVisible(false);//close filling detail page   
-        
+        recordValidation();
        
+        jPanel3.setVisible(true);// open filling card detail page
+        jPanel2.setVisible(false);//close filling detail page  
+        if(recordVa == false){
+            JOptionPane.showMessageDialog(null, "Please fill in required details");
+            jPanel2.setVisible(true);
+            jPanel3.setVisible(false);
+        }
+       
+        
     }//GEN-LAST:event_nextBtn2ActionPerformed
+    public boolean recordValidation(){
+        recordVa = true;
+        if(fNameTA.getText().equals("") || lNameTA.getText().equals("") || uniqueIDTA.getText().equals("") || emailTA.getText().equals("")){
+            recordVa = false;
+        }
+        return recordVa;
+    }
+    public Boolean checkID(){
+            //System.out.println(1);
+        for(Records i: details){
+            System.out.println(i.getUniqueID());
+            if(i.getUniqueID().equals(uniqueIDTA.getText())){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void saveDetails(){
+        try{
+            File f = new File("Records.dat");
+            FileOutputStream output = new FileOutputStream(f);
+            ObjectOutputStream oos = new ObjectOutputStream(output);
+            oos.writeObject(details);
+            JOptionPane.showMessageDialog(null,"Written!");
 
+            oos.close();
+            
+        } catch (IOException e){
+            System.out.println(e);
+            
+        }
+       
+    }
+    
+    public void readDetails(){
+        try{
+            File f = new File("Records.dat");
+            FileInputStream input = new FileInputStream(f);
+            ObjectInputStream ois = new ObjectInputStream(input);
+            details = (ArrayList<Records>) ois.readObject();
+            JOptionPane.showMessageDialog(null,details.size());
+            ois.close();
+        } catch(IOException | ClassNotFoundException e){
+            System.out.println("crashing on read");
+
+        } 
+       
+    }
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null,"Thank You!");
+        System.exit(1);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void premiumCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_premiumCheckBoxActionPerformed
+        // TODO add your handling code here:
+        seatType = new PremiumSeat();
+        seatCheckRadioClicked(1);
+    }//GEN-LAST:event_premiumCheckBoxActionPerformed
+
+    private void businessCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_businessCheckBoxActionPerformed
+        // TODO add your handling code here:
+        seatType = new BusinessSeat();
+        seatCheckRadioClicked(0);
+    }//GEN-LAST:event_businessCheckBoxActionPerformed
+
+    private void nextBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtn1ActionPerformed
+        // TODO add your handling code here:
+        jPanel2.setVisible(true);// open filling details page
+        jPanel1.setVisible(false);// close seat page (first page)
+    }//GEN-LAST:event_nextBtn1ActionPerformed
+    
+    private void seatCheckRadioClicked(int clicked){
+        JRadioButton x[] = {businessCheckBox,premiumCheckBox,normalCheckBox};
+        JScrollPane y[] = {jScrollPane4,jScrollPane3,jScrollPane5};
+        JTextPane z[] = {businessTP,premiumTP,normalTP};
+        
+
+        for(int i =0; i < x.length; i++){
+                if(i == clicked){
+                    x[i].setSelected(true);
+                    y[i].setVisible(true);
+
+                    z[i].setText(String.format("%s\n%s\n%s",seatType.getSeatName(),seatType.getSeatPrice(),seatType.getSeatArea()));
+                    
+                } else {
+                    x[i].setSelected(false);
+                    y[i].setVisible(false);
+                }
+
+            
+        }
+                            getContentPane().validate();
+                    getContentPane().repaint();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -922,23 +1084,25 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField ageTA;
     private javax.swing.JLabel availableLB;
     private javax.swing.JList<String> availableSlotLB;
     private javax.swing.JButton backBtn1;
     private javax.swing.JButton backBtn2;
     private javax.swing.JButton backBtn3;
     private javax.swing.JButton backBtn4;
-    private javax.swing.JRadioButton businessBtn;
+    private javax.swing.JRadioButton businessCheckBox;
     private javax.swing.JTextPane businessTP;
     private javax.swing.JTextField cardNumTF;
     private javax.swing.JTextField ccvTF;
     private javax.swing.JLabel congratzLB;
+    private javax.swing.JCheckBox emailCheckBox;
+    private javax.swing.JTextField emailTA;
     private javax.swing.JButton exchangeBtn;
+    private javax.swing.JTextField fNameTA;
     private javax.swing.JComboBox<String> gameCB;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextField genderTA;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -965,22 +1129,20 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField lNameTA;
+    private javax.swing.JCheckBox mealCheckBox;
     private javax.swing.JTextField monthTF;
     private javax.swing.JTextField nameTF;
     private javax.swing.JButton nextBtn1;
     private javax.swing.JButton nextBtn2;
     private javax.swing.JButton nextBtn3;
-    private javax.swing.JRadioButton normalBtn;
+    private javax.swing.JRadioButton normalCheckBox;
     private javax.swing.JTextPane normalTP;
-    private javax.swing.JRadioButton premiumBtn;
+    private javax.swing.JCheckBox phoneCheckBox;
+    private javax.swing.JTextField phoneTA;
+    private javax.swing.JRadioButton premiumCheckBox;
     private javax.swing.JTextPane premiumTP;
+    private javax.swing.JComboBox<String> quantityCombo;
     private javax.swing.JCheckBox rememberCardCB;
     private javax.swing.JButton requestBtn;
     private javax.swing.JButton selectBtn;
@@ -991,6 +1153,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JTextField summaryTF;
     private javax.swing.JTextField summaryTF2;
     private javax.swing.JTextField summaryTF3;
+    private javax.swing.JTextField uniqueIDTA;
     private javax.swing.JTextField yearTF;
     // End of variables declaration//GEN-END:variables
 }
