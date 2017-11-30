@@ -23,7 +23,7 @@ public class Records implements Serializable {
     private boolean meal;
     private boolean phoneOffer;
     private boolean emailOffer;
-    
+
     public Records(String fName,String lName,String uniqueID, String age,String gender,String qty,String email,String phoneNo,boolean meal,boolean phoneOffer,boolean emailOffer) {
         this.fName = fName;
         this.lName = lName;
@@ -36,7 +36,7 @@ public class Records implements Serializable {
         this.meal = meal;
         this.phoneOffer = phoneOffer;
         this.emailOffer = emailOffer;
-    
+
     }
 
     public String getUniqueID() {
@@ -58,11 +58,11 @@ public class Records implements Serializable {
     public String getEmail() {
         return email;
     }
-    
-    
 
-    
-    
+
+
+
+
     public void showDetails(){
 //        System.out.println(fName);
 //        System.out.println(lName);

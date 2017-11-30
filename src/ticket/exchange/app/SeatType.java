@@ -12,7 +12,7 @@ package ticket.exchange.app;
 public class SeatType {
     public String seatName,seatArea,seatPrice;
     public double basePrice;
-    
+
     public SeatType() {
         this.seatName = "Seat Name: ";
         this.seatPrice = "Seat Price: ";
@@ -35,8 +35,8 @@ public class SeatType {
     public String getSeatArea() {
         return seatArea;
     }
-    
-    
-    
-    
+
+
+
+
 }

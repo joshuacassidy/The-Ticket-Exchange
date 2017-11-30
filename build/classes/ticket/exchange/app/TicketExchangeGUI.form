@@ -269,16 +269,16 @@
                   <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="monthTF" min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="monthTA" min="-2" pref="42" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="yearTF" min="-2" pref="48" max="-2" attributes="0"/>
+                          <Component id="yearTA" min="-2" pref="48" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="ccvTF" min="-2" pref="47" max="-2" attributes="0"/>
+                          <Component id="ccvTA" min="-2" pref="47" max="-2" attributes="0"/>
                       </Group>
                       <Component id="rememberCardCB" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="cardNumTF" max="32767" attributes="0"/>
-                          <Component id="nameTF" alignment="0" pref="173" max="32767" attributes="0"/>
+                          <Component id="cardNumTA" max="32767" attributes="0"/>
+                          <Component id="nameTA" alignment="0" pref="173" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="218" max="32767" attributes="0"/>
@@ -296,15 +296,15 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                  <Component id="cardNumTF" min="-2" max="-2" attributes="0"/>
+                  <Component id="cardNumTA" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="monthTF" alignment="3" max="-2" attributes="0"/>
-                      <Component id="yearTF" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="ccvTF" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="monthTA" alignment="3" max="-2" attributes="0"/>
+                      <Component id="yearTA" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ccvTA" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="nameTF" min="-2" max="-2" attributes="0"/>
+                  <Component id="nameTA" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="rememberCardCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -318,30 +318,47 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="cardNumTF">
+        <Component class="javax.swing.JTextField" name="cardNumTA">
           <Properties>
             <Property name="text" type="java.lang.String" value="Card Number"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cardNumTAMouseClicked"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="monthTF">
+        <Component class="javax.swing.JTextField" name="monthTA">
           <Properties>
             <Property name="text" type="java.lang.String" value="MM"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="monthTAMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="monthTAActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="yearTF">
+        <Component class="javax.swing.JTextField" name="yearTA">
           <Properties>
             <Property name="text" type="java.lang.String" value="YYYY"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="yearTAMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="yearTAActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="ccvTF">
+        <Component class="javax.swing.JTextField" name="ccvTA">
           <Properties>
             <Property name="text" type="java.lang.String" value="CCV"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ccvTAMouseClicked"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="nameTF">
+        <Component class="javax.swing.JTextField" name="nameTA">
           <Properties>
             <Property name="text" type="java.lang.String" value="Name on Card"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nameTAMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="rememberCardCB">
           <Properties>
@@ -804,6 +821,7 @@
                               </Group>
                           </Group>
                       </Group>
+                      <Component id="totalTA" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="19" max="32767" attributes="0"/>
               </Group>
@@ -848,7 +866,9 @@
                       <Component id="phoneCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="emailCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                  <Component id="totalTA" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="backBtn1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="nextBtn2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -996,8 +1016,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel17">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Phone:"/>
+            <Property name="text" type="java.lang.String" value="*Phone:"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="totalTA">
         </Component>
       </SubComponents>
     </Container>
