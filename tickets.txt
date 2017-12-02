@@ -26,3 +26,41 @@ Your meal selection is: Wine meal
 Ticket Id: 96ISA		Gate: C
 Name: asdf asdf	Passport Number: 12345678g
 Seat Area: Economy Class Seat 	Seat Name: Economy Lounge
+		Ticket Details
+Ticket Id: 9ISA		Gate: B
+Name: jo w	Passport Number: 6141111A
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 97ISA		Gate: C
+Name: josh cas	Passport Number: 1141111A
+Seat Area: Economy Class Seat 	Seat Name: Economy Lounge
+		Ticket Details
+Ticket Id: 10ISA		Gate: B
+Name: josh cassidy	Passport Number: 6141111B
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 11ISA		Gate: B
+Name: jsoh cassid	Passport Number: 6141111c
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 12ISA		Gate: B
+Name: josh cass	Passport Number: 6141111X
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 98ISA		Gate: C
+Name: josh cassidy	Passport Number: 1212121A
+Seat Area: Economy Class Seat 	Seat Name: Economy Lounge
+		Ticket Details
+Ticket Id: 13ISA		Gate: B
+Name: josh cassas	Passport Number: 12121212A
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
+		Ticket Details
+Ticket Id: 14ISA		Gate: B
+Name: josh cassidy	Passport Number: 1212121A
+Seat Area: Corporate Box 	Seat Name: Business Class Seat
+Your meal selection is: Wine meal
