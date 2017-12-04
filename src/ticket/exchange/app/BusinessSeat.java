@@ -5,76 +5,58 @@
  */
 package ticket.exchange.app;
 
-/**
+/*
+ *  Classname: TicketExchangeGUI.java
+ * 
+ *  Version information: Final
  *
- * @author Josh
+ *  Date: 27th October 2017
+
+ * @author Joshua Cassidy x15378586
+ * In collaboration with: Yotaphon Sutweha, x16309311
  */
 public class BusinessSeat extends Seat {
     
-//    private String seatArea, seatName;
-//    private double seatPrice;
-//    private int businessSeatAvailable;
     private int capacity;
     private String[] meal;
     
+    /**
+    * @author Joshua Cassidy, x15378586
+    * @author Yotaphon Sutweha, x16309311
+    * @purpose: BusinessSeat constructor overriding the default values declared in the seat class. 
+    */
     public BusinessSeat(String gameName, int normalSeatsAvailable, int businessSeatAvailable, int premiumSeatAvailable) {
         super(gameName, normalSeatsAvailable, businessSeatAvailable, premiumSeatAvailable);
         this.seatArea = "Corporate Box";
         this.seatName = "Business Class Seat";
-//        this.seatPrice = 30;
-        capacity = 15;
-        gate = 'B';
-        meal = new String[] {"Wine meal","Champange meal","Buffet"};
+        this.capacity = 15;
+        this.gate = 'B';
+        this.meal = new String[] {"Wine meal","Champange meal","Buffet"};
         this.businessSeatAvailable = businessSeatAvailable;
         this.maxSeatsAvailable = 20;
     }
-//    @Override
-//    public int getMaxSeatsAvailable() {
-//        return maxSeatsAvailable;
-//    }
-//    @Override
-//    public char getGate() {
-//        return gate;
-//    }
-//
+
+    /**
+    * @author Joshua Cassidy, x15378586
+    */
     public int getCapacity() {
         return capacity;
     }
 
+    /**
+    * @author Joshua Cassidy, x15378586
+    */
     public String[] getMeal() {
         return meal;
     }
     
-//    @Override
-//    public String getSeatArea() {
-//        return seatArea; //To change body of generated methods, choose Tools | Templates.
-//    }
-    
+    /**
+    * @author Joshua Cassidy, x15378586
+    * @purpose: Updating the price of the seat using the super classes seatPrice.
+    */
     @Override
     public double getPrice() {
-        System.out.println(seatPrice+30);
         return ((seatPrice+30)*capacity);
     }
-    
-//    @Override
-//    public String getTicketId() {
-//        return seatName+businessSeatAvailable;
-//    }
-
-    @Override
-    public String getSeatPrice() {
-        return String.format("Price of ticket is: %.2f",getPrice());
-    }
-
-    
-//    @Override
-//    public String getSeatName() {
-//        return String.format("%s" ,seatName); //To change body of generated methods, choose Tools | Templates.
-//    }
-    
-//    @Override
-//    public void setTicketId(int ticketId) {
-//        this.ticketId = ticketId;
-//    }
     
 }

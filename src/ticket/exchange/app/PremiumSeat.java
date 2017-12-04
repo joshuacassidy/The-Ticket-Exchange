@@ -5,15 +5,27 @@
  */
 package ticket.exchange.app;
 
-/**
+/*
+ *  Classname: TicketExchangeGUI.java
+ * 
+ *  Version information: Final
  *
- * @author Josh
+ *  Date: 27th October 2017
+
+ * @author Joshua Cassidy x15378586
+ * In collaboration with: Yotaphon Sutweha, x16309311
+
  */
+
 public class PremiumSeat extends Seat {
     private String[] meal;
     private boolean fastTrack;
     private String[] parking;
     
+    /**
+    * @author Joshua Cassidy, x15378586
+    * @purpose: PremiumSeat constructor overriding the default values declared in the seat class. 
+    */
     public PremiumSeat(String gameName, int normalSeatsAvailable, int businessSeatAvailable, int premiumSeatAvailable) {
         super(gameName, normalSeatsAvailable, businessSeatAvailable, premiumSeatAvailable);
         this.seatArea = "Executive Lounge";
@@ -26,36 +38,35 @@ public class PremiumSeat extends Seat {
         this.maxSeatsAvailable = 3;
     }
     
+    /**
+    * @author Joshua Cassidy, x15378586
+    */
     public String[] getParking() {
         return parking;
     }
     
+    
+    /**
+    * @author Joshua Cassidy, x15378586
+    */
     public boolean getFastTrack() {
         return fastTrack;
     }
-
+    
+    /**
+    * @author Joshua Cassidy, x15378586
+    */
     public String[] getMeal() {
         return meal;
     }
-
-
-//    @Override
-//    public String getTicketId() {
-//        return seatName+premiumSeatAvailable;
-//    }
-
+    
+    /**
+    * @author Joshua Cassidy, x15378586
+    * @purpose: Updating the price of the seat using the super classes seatPrice.
+    */    
     @Override
     public double getPrice() {
         return (seatPrice+60);
     }
-    
-
-//    @Override
-//    public String getSeatPrice() {
-//        return String.format("Price of ticket is: %s",getPrice()); //To change body of generated methods, choose Tools | Templates.
-//    }
-
-    
-    
     
 }

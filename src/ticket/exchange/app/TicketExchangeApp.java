@@ -5,15 +5,23 @@
  */
 package ticket.exchange.app;
 
-/**
+/*
+ *  Classname: TicketExchangeGUI.java
+ * 
+ *  Version information: Final
  *
- * @author Yo
+ *  Date: 18th October 2017
+ * @author Yotaphon Sutweha, x16309311
+ *
  */
 public class TicketExchangeApp {
 
     /**
      * @param args the command line arguments
      */
+    /**
+    * @author Yotaphon Sutweha, x16309311
+    */
     public static void main(String[] args) {
         // TODO code application logic here
         TicketExchangeGUI ticketGUI = new TicketExchangeGUI();
