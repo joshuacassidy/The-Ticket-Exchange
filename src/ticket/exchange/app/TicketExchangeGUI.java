@@ -1417,6 +1417,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         year = yearTF.getText();
         ccv = ccvTF.getText();
         
+        
+        
         seatName = seat.getSeatName();
         if(seat instanceof PremiumSeat){
                 selectedSeat.setPremiumSeatAvailable(selectedSeat.getPremiumSeatAvailable()-quantity);
