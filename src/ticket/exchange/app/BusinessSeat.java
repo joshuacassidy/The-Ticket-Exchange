@@ -33,7 +33,7 @@ public class BusinessSeat extends Seat {
         this.gate = 'B';
         this.meal = new String[] {"Wine meal","Champange meal","Buffet"};
         this.businessSeatAvailable = businessSeatAvailable;
-        this.maxSeatsAvailable = 20;
+        this.maxSeatsAvailable = 500;
     }
 
     /**

@@ -40,7 +40,7 @@ public class Seat implements Serializable {
         this.businessSeatAvailable = businessSeatAvailable;
         this.premiumSeatAvailable = premiumSeatAvailable;
         this.seatPrice = 50;
-        this.maxSeatsAvailable = 100;
+        this.maxSeatsAvailable = 30000;
     }
     
     /**

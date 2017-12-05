@@ -35,7 +35,7 @@ public class PremiumSeat extends Seat {
         meal = new String[] {"Wine meal","Champange meal","Buffet"};
         parking = new String[] {"Car park A","Car park B"};
         this.premiumSeatAvailable = premiumSeatAvailable;
-        this.maxSeatsAvailable = 3;
+        this.maxSeatsAvailable = 2500;
     }
     
     /**

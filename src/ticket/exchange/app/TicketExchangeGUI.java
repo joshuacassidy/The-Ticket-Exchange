@@ -989,7 +989,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             ArrayList<Seat> listOfGames = new ArrayList<>();
             Seat game;
             for(String i: games){
-                game = new Seat(i,2500,500,30000);
+                game = new Seat(i,30000,500,2500);
                 listOfGames.add(game);
             }
             oos.writeObject(listOfGames);
@@ -1386,7 +1386,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             String ticketIdLetters = (gameCB.getSelectedItem()).toString();
             bw.write("\t\tTicket Details\n");        
             for(int i = 0; i < quantity; i++){
-                bw.write("Ticket Id: " + (seat.getMaxSeatsAvailable()-availableSeat-i)+ticketIdLetters.replaceAll("[a-z()0-9. ]","") + "\t\tGate: " + seat.getGate() + "\n" + "Name: " + fName + " " + lName  + "\tPassport Number: " + ppsnTA.getText() + "\n" + "Seat Area: " +seat.getSeatArea() + " \tSeat Name: " + seatName + "\n" + mealAndParkingDetails(mealCB.getSelectedItem().toString()));
+                bw.write("Ticket Id: " + (seat.getMaxSeatsAvailable()-availableSeat+i+1)+ticketIdLetters.replaceAll("[a-z()0-9. ]","") + "\t\tGate: " + seat.getGate() + "\n" + "Name: " + fName + " " + lName  + "\tPassport Number: " + ppsnTA.getText() + "\n" + "Seat Area: " +seat.getSeatArea() + " \tSeat Name: " + seatName + "\n" + mealAndParkingDetails(mealCB.getSelectedItem().toString()));
 
             }
             bw.close();
@@ -1435,7 +1435,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         seatName = seat.getSeatName();
         if(seat instanceof PremiumSeat){
                 selectedSeat.setPremiumSeatAvailable(selectedSeat.getPremiumSeatAvailable()-quantity);
-                writeToTicketFile(seat.getNormalSeatsAvailable());
+                writeToTicketFile(seat.getPremiumSeatAvailable());
                 records = new Records(fName,lName,ppsn,age,gender,quantity,meal,carPark,email,phoneNo,phoneOffer,emailOffer,cardNumber,month,year,ccv,gameName, seatName);
             } else if(seat instanceof BusinessSeat){
             // Decrement the value by one because the user doesnt have the choice to buy more than one box
