@@ -90,23 +90,23 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="premiumSP" min="-2" pref="126" max="-2" attributes="0"/>
-                              <Component id="premiumRB" min="-2" pref="126" max="-2" attributes="0"/>
+                              <Component id="premiumScrollPane" min="-2" pref="126" max="-2" attributes="0"/>
+                              <Component id="premiumCheckBox" min="-2" pref="126" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="businessRB" min="-2" pref="126" max="-2" attributes="0"/>
-                              <Component id="businessSP" min="-2" pref="126" max="-2" attributes="0"/>
+                              <Component id="businessCheckBox" min="-2" pref="126" max="-2" attributes="0"/>
+                              <Component id="businessScrollPane" min="-2" pref="126" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="normalRB" min="-2" pref="126" max="-2" attributes="0"/>
-                              <Component id="normalSP" min="-2" pref="126" max="-2" attributes="0"/>
+                              <Component id="normalCheckBox" min="-2" pref="126" max="-2" attributes="0"/>
+                              <Component id="normalScrollPane" min="-2" pref="126" max="-2" attributes="0"/>
                               <Component id="homePageNextBtn" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="logoLB" min="-2" max="-2" attributes="0"/>
+                          <Component id="logo" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
@@ -131,19 +131,19 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="gameCB" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="logoLB" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="logo" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="businessRB" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="premiumRB" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="normalRB" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="businessCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="premiumCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="normalCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="premiumSP" min="-2" pref="174" max="-2" attributes="0"/>
-                      <Component id="businessSP" alignment="0" min="-2" pref="174" max="-2" attributes="0"/>
-                      <Component id="normalSP" min="-2" pref="174" max="-2" attributes="0"/>
+                      <Component id="premiumScrollPane" min="-2" pref="174" max="-2" attributes="0"/>
+                      <Component id="businessScrollPane" alignment="0" min="-2" pref="174" max="-2" attributes="0"/>
+                      <Component id="normalScrollPane" min="-2" pref="174" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="85" max="32767" attributes="0"/>
                   <Component id="homePageNextBtn" min="-2" pref="69" max="-2" attributes="0"/>
@@ -153,7 +153,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="premiumRB">
+        <Component class="javax.swing.JRadioButton" name="premiumCheckBox">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b7" green="e5" red="a" type="rgb"/>
@@ -167,10 +167,10 @@
             <Property name="text" type="java.lang.String" value="PREMIUM"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="premiumRBActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="premiumCheckBoxActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="normalRB">
+        <Component class="javax.swing.JRadioButton" name="normalCheckBox">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b7" green="e5" red="a" type="rgb"/>
@@ -184,10 +184,10 @@
             <Property name="text" type="java.lang.String" value="NORMAL"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normalRBActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normalCheckBoxActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="businessRB">
+        <Component class="javax.swing.JRadioButton" name="businessCheckBox">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b7" green="e5" red="a" type="rgb"/>
@@ -201,7 +201,7 @@
             <Property name="text" type="java.lang.String" value="BUSINESS"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="businessRBActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="businessCheckBoxActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="gameCB">
@@ -234,7 +234,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="premiumSP">
+        <Container class="javax.swing.JScrollPane" name="premiumScrollPane">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
@@ -257,7 +257,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JScrollPane" name="businessSP">
+        <Container class="javax.swing.JScrollPane" name="businessScrollPane">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
@@ -280,7 +280,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JScrollPane" name="normalSP">
+        <Container class="javax.swing.JScrollPane" name="normalScrollPane">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b7" green="e5" red="a" type="rgb"/>
@@ -309,7 +309,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="logoLB">
+        <Component class="javax.swing.JLabel" name="logo">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ticket/Res/logo.png"/>
@@ -516,10 +516,10 @@
                       <Group type="102" attributes="0">
                           <Component id="summaryLB" min="-2" pref="111" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="summarySP" min="-2" pref="428" max="-2" attributes="0"/>
+                          <Component id="summaryScrollPane" min="-2" pref="428" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="33" max="32767" attributes="0"/>
+                  <EmptySpace pref="35" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -532,7 +532,7 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                  <Component id="summarySP" pref="41" max="32767" attributes="0"/>
+                  <Component id="summaryScrollPane" pref="41" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="exitBtn" min="-2" pref="47" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
@@ -552,7 +552,7 @@
             <Property name="text" type="java.lang.String" value="Summary:"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="summarySP">
+        <Container class="javax.swing.JScrollPane" name="summaryScrollPane">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b7" green="e5" red="a" type="rgb"/>
@@ -618,11 +618,11 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="detailsPageNextBtn" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="offerLB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="offerLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="mealLB" min="-2" max="-2" attributes="0"/>
+                              <Component id="mealLbl" min="-2" max="-2" attributes="0"/>
                               <Component id="parkLbl" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -645,15 +645,15 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="emailLB" min="-2" max="-2" attributes="0"/>
-                              <Component id="ageLB" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="emailLbl" min="-2" max="-2" attributes="0"/>
+                              <Component id="ageLbl" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="emailTA" min="-2" pref="142" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="phoneLB" min="-2" max="-2" attributes="0"/>
+                                  <Component id="phoneLbl" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="phoneTA" min="-2" pref="152" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -661,28 +661,28 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="ageTA" min="-2" pref="43" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="genderLB" min="-2" pref="58" max="-2" attributes="0"/>
+                                  <Component id="genderLbl" min="-2" pref="58" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="genderTA" min="-2" pref="82" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="qtyLB" min="-2" max="-2" attributes="0"/>
+                                  <Component id="qtyLbl" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="quantityCB" min="-2" pref="75" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="totalCostDisplayLB" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <Component id="totalCostDisplayLbl" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="fNameLB" min="-2" max="-2" attributes="0"/>
+                          <Component id="fNameLbl" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="fNameTA" min="-2" pref="77" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="sNameLB" min="-2" max="-2" attributes="0"/>
+                          <Component id="sNameLbl" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lNameTA" min="-2" pref="83" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="ppsLB" min="-2" max="-2" attributes="0"/>
+                          <Component id="ppsLbl" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="ppsnTA" min="-2" pref="102" max="-2" attributes="0"/>
                       </Group>
@@ -699,9 +699,9 @@
                       <Component id="lNameTA" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="fNameTA" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="fNameLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                          <Component id="sNameLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                          <Component id="ppsLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="fNameLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="sNameLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="ppsLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="ppsnTA" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -711,21 +711,21 @@
                           <Component id="ageTA" min="-2" pref="29" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="emailLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="phoneLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="emailLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="phoneLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="ageLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                                  <Component id="genderLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                                  <Component id="qtyLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="ageLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="genderLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="qtyLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                               </Group>
                               <Component id="genderTA" alignment="0" max="32767" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                   <Component id="quantityCB" alignment="3" max="32767" attributes="0"/>
-                                  <Component id="totalCostDisplayLB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="totalCostDisplayLbl" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -745,12 +745,12 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="offerLB" min="-2" pref="29" max="-2" attributes="0"/>
+                          <Component id="offerLbl" min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="mealLB" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="mealLbl" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="mealCB" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
@@ -769,7 +769,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="fNameLB">
+        <Component class="javax.swing.JLabel" name="fNameLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -898,7 +898,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="phoneTAActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="mealLB">
+        <Component class="javax.swing.JLabel" name="mealLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -909,7 +909,7 @@
             <Property name="text" type="java.lang.String" value="Choose  your meal:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="offerLB">
+        <Component class="javax.swing.JLabel" name="offerLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -954,7 +954,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailCBActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="sNameLB">
+        <Component class="javax.swing.JLabel" name="sNameLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -965,7 +965,7 @@
             <Property name="text" type="java.lang.String" value="*Second name:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="ppsLB">
+        <Component class="javax.swing.JLabel" name="ppsLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -976,7 +976,7 @@
             <Property name="text" type="java.lang.String" value="*PPSN"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="ageLB">
+        <Component class="javax.swing.JLabel" name="ageLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -987,7 +987,7 @@
             <Property name="text" type="java.lang.String" value="Age:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="genderLB">
+        <Component class="javax.swing.JLabel" name="genderLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -998,7 +998,7 @@
             <Property name="text" type="java.lang.String" value="Gender:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="qtyLB">
+        <Component class="javax.swing.JLabel" name="qtyLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -1009,7 +1009,7 @@
             <Property name="text" type="java.lang.String" value="*Quantity:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="emailLB">
+        <Component class="javax.swing.JLabel" name="emailLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -1020,7 +1020,7 @@
             <Property name="text" type="java.lang.String" value="Email:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="phoneLB">
+        <Component class="javax.swing.JLabel" name="phoneLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="12" style="1"/>
@@ -1110,7 +1110,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="detailsPageBackBtnMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="totalCostDisplayLB">
+        <Component class="javax.swing.JLabel" name="totalCostDisplayLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="14" style="1"/>
@@ -1143,7 +1143,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="welcomeLB" min="-2" max="-2" attributes="0"/>
+                          <Component id="welcomeLbl" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="279" max="-2" attributes="0"/>
@@ -1165,7 +1165,7 @@
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="logoWelcomePage" min="-2" pref="106" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="welcomeLB" min="-2" max="-2" attributes="0"/>
+                  <Component id="welcomeLbl" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="welcomePageNextBtn" min="-2" pref="64" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
@@ -1174,7 +1174,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="welcomeLB">
+        <Component class="javax.swing.JLabel" name="welcomeLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="24" style="1"/>

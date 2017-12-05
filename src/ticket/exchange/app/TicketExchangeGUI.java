@@ -1,4 +1,4 @@
- /*
+  /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -15,17 +15,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JRootPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
+
 
 /*
  *  Classname: TicketExchangeGUI.java
@@ -33,7 +27,8 @@ import javax.swing.JTextPane;
  *  Version information: Final
  *
  *  Date: 18th October 2017
- * @reference https://stackoverflow.com/questions/42266148/email-validation-regex-java
+ * @reference: https://stackoverflow.com/questions/42266148/email-validation-regex-java
+ * @reference: https://github.com/joshuacassidy/Bubble-Sort
  * @author Yotaphon Sutweha, x16309311
  * In collaboration with: Joshua Cassidy, x15378586
  *
@@ -66,15 +61,15 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         detailsPanel.setVisible(false);
         cardPanel.setVisible(false);
         summaryPanel.setVisible(false);
-        businessSP.setVisible(false);
-        premiumSP.setVisible(false);
-        normalSP.setVisible(false);
+        businessScrollPane.setVisible(false);
+        premiumScrollPane.setVisible(false);
+        normalScrollPane.setVisible(false);
         details = new ArrayList<>();
         createFile();
         getAvailaibleGames();
         parkCB.setVisible(false);
         mealCB.setVisible(false);
-        mealLB.setVisible(false);
+        mealLbl.setVisible(false);
         parkLbl.setVisible(false);
         
 
@@ -93,17 +88,17 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         HomePanel = new javax.swing.JPanel();
-        premiumRB = new javax.swing.JRadioButton();
-        normalRB = new javax.swing.JRadioButton();
-        businessRB = new javax.swing.JRadioButton();
+        premiumCheckBox = new javax.swing.JRadioButton();
+        normalCheckBox = new javax.swing.JRadioButton();
+        businessCheckBox = new javax.swing.JRadioButton();
         gameCB = new javax.swing.JComboBox<>();
-        premiumSP = new javax.swing.JScrollPane();
+        premiumScrollPane = new javax.swing.JScrollPane();
         premiumTP = new javax.swing.JTextPane();
-        businessSP = new javax.swing.JScrollPane();
+        businessScrollPane = new javax.swing.JScrollPane();
         businessTP = new javax.swing.JTextPane();
-        normalSP = new javax.swing.JScrollPane();
+        normalScrollPane = new javax.swing.JScrollPane();
         normalTP = new javax.swing.JTextPane();
-        logoLB = new javax.swing.JLabel();
+        logo = new javax.swing.JLabel();
         selectLB = new javax.swing.JLabel();
         homePageNextBtn = new javax.swing.JLabel();
         cardPanel = new javax.swing.JPanel();
@@ -116,11 +111,11 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         creditCardBackBtn = new javax.swing.JLabel();
         summaryPanel = new javax.swing.JPanel();
         summaryLB = new javax.swing.JLabel();
-        summarySP = new javax.swing.JScrollPane();
+        summaryScrollPane = new javax.swing.JScrollPane();
         summaryTA = new javax.swing.JTextArea();
         exitBtn = new javax.swing.JLabel();
         detailsPanel = new javax.swing.JPanel();
-        fNameLB = new javax.swing.JLabel();
+        fNameLbl = new javax.swing.JLabel();
         fNameTA = new javax.swing.JTextField();
         lNameTA = new javax.swing.JTextField();
         ppsnTA = new javax.swing.JTextField();
@@ -129,31 +124,33 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         quantityCB = new javax.swing.JComboBox<>();
         emailTA = new javax.swing.JTextField();
         phoneTA = new javax.swing.JTextField();
-        mealLB = new javax.swing.JLabel();
-        offerLB = new javax.swing.JLabel();
+        mealLbl = new javax.swing.JLabel();
+        offerLbl = new javax.swing.JLabel();
         phoneCB = new javax.swing.JCheckBox();
         emailCB = new javax.swing.JCheckBox();
-        sNameLB = new javax.swing.JLabel();
-        ppsLB = new javax.swing.JLabel();
-        ageLB = new javax.swing.JLabel();
-        genderLB = new javax.swing.JLabel();
-        qtyLB = new javax.swing.JLabel();
-        emailLB = new javax.swing.JLabel();
-        phoneLB = new javax.swing.JLabel();
+        sNameLbl = new javax.swing.JLabel();
+        ppsLbl = new javax.swing.JLabel();
+        ageLbl = new javax.swing.JLabel();
+        genderLbl = new javax.swing.JLabel();
+        qtyLbl = new javax.swing.JLabel();
+        emailLbl = new javax.swing.JLabel();
+        phoneLbl = new javax.swing.JLabel();
         parkCB = new javax.swing.JComboBox<>();
         parkLbl = new javax.swing.JLabel();
         mealCB = new javax.swing.JComboBox<>();
         detailsPageNextBtn = new javax.swing.JLabel();
         detailsPageBackBtn = new javax.swing.JLabel();
-        totalCostDisplayLB = new javax.swing.JLabel();
+        totalCostDisplayLbl = new javax.swing.JLabel();
         welcomePanel = new javax.swing.JPanel();
-        welcomeLB = new javax.swing.JLabel();
+        welcomeLbl = new javax.swing.JLabel();
         logoWelcomePage = new javax.swing.JLabel();
         welcomePageNextBtn = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setMaximumSize(new java.awt.Dimension(700, 560));
+        setPreferredSize(new java.awt.Dimension(700, 560));
         setResizable(false);
 
         HomePanel.setBackground(new java.awt.Color(10, 229, 183));
@@ -162,33 +159,33 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         HomePanel.setPreferredSize(new java.awt.Dimension(580, 380));
         HomePanel.setRequestFocusEnabled(false);
 
-        premiumRB.setBackground(new java.awt.Color(10, 229, 183));
-        premiumRB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        premiumRB.setForeground(new java.awt.Color(250, 250, 250));
-        premiumRB.setText("PREMIUM");
-        premiumRB.addActionListener(new java.awt.event.ActionListener() {
+        premiumCheckBox.setBackground(new java.awt.Color(10, 229, 183));
+        premiumCheckBox.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        premiumCheckBox.setForeground(new java.awt.Color(250, 250, 250));
+        premiumCheckBox.setText("PREMIUM");
+        premiumCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                premiumRBActionPerformed(evt);
+                premiumCheckBoxActionPerformed(evt);
             }
         });
 
-        normalRB.setBackground(new java.awt.Color(10, 229, 183));
-        normalRB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        normalRB.setForeground(new java.awt.Color(250, 250, 250));
-        normalRB.setText("NORMAL");
-        normalRB.addActionListener(new java.awt.event.ActionListener() {
+        normalCheckBox.setBackground(new java.awt.Color(10, 229, 183));
+        normalCheckBox.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        normalCheckBox.setForeground(new java.awt.Color(250, 250, 250));
+        normalCheckBox.setText("NORMAL");
+        normalCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                normalRBActionPerformed(evt);
+                normalCheckBoxActionPerformed(evt);
             }
         });
 
-        businessRB.setBackground(new java.awt.Color(10, 229, 183));
-        businessRB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        businessRB.setForeground(new java.awt.Color(250, 250, 250));
-        businessRB.setText("BUSINESS");
-        businessRB.addActionListener(new java.awt.event.ActionListener() {
+        businessCheckBox.setBackground(new java.awt.Color(10, 229, 183));
+        businessCheckBox.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        businessCheckBox.setForeground(new java.awt.Color(250, 250, 250));
+        businessCheckBox.setText("BUSINESS");
+        businessCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                businessRBActionPerformed(evt);
+                businessCheckBoxActionPerformed(evt);
             }
         });
 
@@ -207,24 +204,24 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         premiumTP.setBackground(new java.awt.Color(250, 250, 250));
         premiumTP.setFont(new java.awt.Font("Verdana", 1, 9)); // NOI18N
         premiumTP.setForeground(new java.awt.Color(10, 229, 183));
-        premiumSP.setViewportView(premiumTP);
+        premiumScrollPane.setViewportView(premiumTP);
 
         businessTP.setEditable(false);
         businessTP.setBackground(new java.awt.Color(250, 250, 250));
         businessTP.setFont(new java.awt.Font("Verdana", 1, 9)); // NOI18N
         businessTP.setForeground(new java.awt.Color(10, 229, 183));
-        businessSP.setViewportView(businessTP);
+        businessScrollPane.setViewportView(businessTP);
 
-        normalSP.setForeground(new java.awt.Color(10, 229, 183));
+        normalScrollPane.setForeground(new java.awt.Color(10, 229, 183));
 
         normalTP.setEditable(false);
         normalTP.setBackground(new java.awt.Color(250, 250, 250));
         normalTP.setFont(new java.awt.Font("Verdana", 1, 9)); // NOI18N
         normalTP.setForeground(new java.awt.Color(10, 229, 183));
         normalTP.setToolTipText("");
-        normalSP.setViewportView(normalTP);
+        normalScrollPane.setViewportView(normalTP);
 
-        logoLB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/Res/logo.png"))); // NOI18N
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/Res/logo.png"))); // NOI18N
 
         selectLB.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
         selectLB.setForeground(new java.awt.Color(250, 250, 250));
@@ -247,19 +244,19 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addGroup(HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(HomePanelLayout.createSequentialGroup()
                         .addGroup(HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(premiumSP, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(premiumRB, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(premiumScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(premiumCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(92, 92, 92)
                         .addGroup(HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(businessRB, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(businessSP, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(businessCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(businessScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(84, 84, 84)
                         .addGroup(HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(normalRB, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(normalSP, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(normalCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(normalScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(homePageNextBtn)))
                     .addGroup(HomePanelLayout.createSequentialGroup()
-                        .addComponent(logoLB)
+                        .addComponent(logo)
                         .addGroup(HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(HomePanelLayout.createSequentialGroup()
                                 .addGap(43, 43, 43)
@@ -276,17 +273,17 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                         .addComponent(selectLB)
                         .addGap(18, 18, 18)
                         .addComponent(gameCB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(logoLB, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(logo, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(businessRB)
-                    .addComponent(premiumRB)
-                    .addComponent(normalRB))
+                    .addComponent(businessCheckBox)
+                    .addComponent(premiumCheckBox)
+                    .addComponent(normalCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(premiumSP, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(businessSP, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(normalSP, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(premiumScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(businessScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(normalScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addComponent(homePageNextBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -418,8 +415,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         summaryLB.setForeground(new java.awt.Color(250, 250, 250));
         summaryLB.setText("Summary:");
 
-        summarySP.setForeground(new java.awt.Color(10, 229, 183));
-        summarySP.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        summaryScrollPane.setForeground(new java.awt.Color(10, 229, 183));
+        summaryScrollPane.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
 
         summaryTA.setEditable(false);
         summaryTA.setBackground(new java.awt.Color(250, 250, 250));
@@ -427,7 +424,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         summaryTA.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         summaryTA.setForeground(new java.awt.Color(10, 229, 183));
         summaryTA.setRows(5);
-        summarySP.setViewportView(summaryTA);
+        summaryScrollPane.setViewportView(summaryTA);
 
         exitBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/res/logout.png"))); // NOI18N
         exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -447,7 +444,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addGroup(summaryPanelLayout.createSequentialGroup()
                         .addComponent(summaryLB, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(summarySP, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(summaryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         summaryPanelLayout.setVerticalGroup(
@@ -458,7 +455,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addContainerGap(98, Short.MAX_VALUE))
             .addGroup(summaryPanelLayout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addComponent(summarySP, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addComponent(summaryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
@@ -467,9 +464,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         detailsPanel.setBackground(new java.awt.Color(10, 229, 183));
         detailsPanel.setPreferredSize(new java.awt.Dimension(623, 422));
 
-        fNameLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        fNameLB.setForeground(new java.awt.Color(250, 250, 250));
-        fNameLB.setText("*First name:");
+        fNameLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        fNameLbl.setForeground(new java.awt.Color(250, 250, 250));
+        fNameLbl.setText("*First name:");
 
         fNameTA.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         fNameTA.setForeground(new java.awt.Color(10, 229, 183));
@@ -537,13 +534,13 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        mealLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mealLB.setForeground(new java.awt.Color(250, 250, 250));
-        mealLB.setText("Choose  your meal:");
+        mealLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mealLbl.setForeground(new java.awt.Color(250, 250, 250));
+        mealLbl.setText("Choose  your meal:");
 
-        offerLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        offerLB.setForeground(new java.awt.Color(250, 250, 250));
-        offerLB.setText("Do you want to receive future special offer?");
+        offerLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        offerLbl.setForeground(new java.awt.Color(250, 250, 250));
+        offerLbl.setText("Do you want to receive future special offer?");
 
         phoneCB.setBackground(new java.awt.Color(10, 229, 183));
         phoneCB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -565,33 +562,33 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        sNameLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        sNameLB.setForeground(new java.awt.Color(250, 250, 250));
-        sNameLB.setText("*Second name:");
+        sNameLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        sNameLbl.setForeground(new java.awt.Color(250, 250, 250));
+        sNameLbl.setText("*Second name:");
 
-        ppsLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        ppsLB.setForeground(new java.awt.Color(250, 250, 250));
-        ppsLB.setText("*PPSN");
+        ppsLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        ppsLbl.setForeground(new java.awt.Color(250, 250, 250));
+        ppsLbl.setText("*PPSN");
 
-        ageLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        ageLB.setForeground(new java.awt.Color(250, 250, 250));
-        ageLB.setText("Age:");
+        ageLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        ageLbl.setForeground(new java.awt.Color(250, 250, 250));
+        ageLbl.setText("Age:");
 
-        genderLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        genderLB.setForeground(new java.awt.Color(250, 250, 250));
-        genderLB.setText("Gender:");
+        genderLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        genderLbl.setForeground(new java.awt.Color(250, 250, 250));
+        genderLbl.setText("Gender:");
 
-        qtyLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        qtyLB.setForeground(new java.awt.Color(250, 250, 250));
-        qtyLB.setText("*Quantity:");
+        qtyLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        qtyLbl.setForeground(new java.awt.Color(250, 250, 250));
+        qtyLbl.setText("*Quantity:");
 
-        emailLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        emailLB.setForeground(new java.awt.Color(250, 250, 250));
-        emailLB.setText("Email:");
+        emailLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        emailLbl.setForeground(new java.awt.Color(250, 250, 250));
+        emailLbl.setText("Email:");
 
-        phoneLB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        phoneLB.setForeground(new java.awt.Color(250, 250, 250));
-        phoneLB.setText("Phone:");
+        phoneLbl.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        phoneLbl.setForeground(new java.awt.Color(250, 250, 250));
+        phoneLbl.setText("Phone:");
 
         parkCB.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         parkCB.setForeground(new java.awt.Color(10, 229, 183));
@@ -629,9 +626,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        totalCostDisplayLB.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        totalCostDisplayLB.setForeground(new java.awt.Color(255, 255, 255));
-        totalCostDisplayLB.setText("0");
+        totalCostDisplayLbl.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        totalCostDisplayLbl.setForeground(new java.awt.Color(255, 255, 255));
+        totalCostDisplayLbl.setText("0");
 
         javax.swing.GroupLayout detailsPanelLayout = new javax.swing.GroupLayout(detailsPanel);
         detailsPanel.setLayout(detailsPanelLayout);
@@ -644,11 +641,11 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                         .addComponent(detailsPageBackBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(detailsPageNextBtn))
-                    .addComponent(offerLB, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(offerLbl, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(detailsPanelLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mealLB)
+                            .addComponent(mealLbl)
                             .addComponent(parkLbl))
                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(detailsPanelLayout.createSequentialGroup()
@@ -665,39 +662,39 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                                 .addGap(68, 68, 68))))
                     .addGroup(detailsPanelLayout.createSequentialGroup()
                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(emailLB)
-                            .addComponent(ageLB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(emailLbl)
+                            .addComponent(ageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(detailsPanelLayout.createSequentialGroup()
                                 .addComponent(emailTA, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(phoneLB)
+                                .addComponent(phoneLbl)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(detailsPanelLayout.createSequentialGroup()
                                 .addComponent(ageTA, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(genderLB, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(genderLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(genderTA, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(qtyLB)
+                                .addComponent(qtyLbl)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(quantityCB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(totalCostDisplayLB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(totalCostDisplayLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, detailsPanelLayout.createSequentialGroup()
-                        .addComponent(fNameLB)
+                        .addComponent(fNameLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(fNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sNameLB)
+                        .addComponent(sNameLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ppsLB)
+                        .addComponent(ppsLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ppsnTA, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24))
@@ -710,9 +707,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(lNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fNameTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(fNameLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(sNameLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ppsLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fNameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sNameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ppsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(ppsnTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -720,18 +717,18 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                         .addComponent(ageTA, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(emailLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(phoneLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(emailLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(detailsPanelLayout.createSequentialGroup()
                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(ageLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(genderLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(qtyLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(genderLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(qtyLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(genderTA)
                             .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(quantityCB)
-                                .addComponent(totalCostDisplayLB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(totalCostDisplayLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(phoneTA, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -744,10 +741,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                             .addComponent(emailCB)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detailsPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(offerLB, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(offerLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(13, 13, 13)
                 .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mealLB, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mealLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(mealCB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -768,9 +765,9 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             }
         });
 
-        welcomeLB.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
-        welcomeLB.setForeground(new java.awt.Color(250, 250, 250));
-        welcomeLB.setText("WELCOME TO SHERIDAN'S TICKET SALES");
+        welcomeLbl.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        welcomeLbl.setForeground(new java.awt.Color(250, 250, 250));
+        welcomeLbl.setText("WELCOME TO SHERIDAN'S TICKET SALES");
 
         logoWelcomePage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticket/Res/logo.png"))); // NOI18N
 
@@ -789,7 +786,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addGroup(welcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(welcomePanelLayout.createSequentialGroup()
                         .addGap(48, 48, 48)
-                        .addComponent(welcomeLB))
+                        .addComponent(welcomeLbl))
                     .addGroup(welcomePanelLayout.createSequentialGroup()
                         .addGap(279, 279, 279)
                         .addComponent(logoWelcomePage)))
@@ -805,7 +802,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(logoWelcomePage, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(welcomeLB)
+                .addComponent(welcomeLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(welcomePageNextBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
@@ -821,7 +818,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                     .addComponent(HomePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
                     .addComponent(detailsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
                     .addComponent(summaryPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
-                    .addComponent(cardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE))
                 .addGap(19, 19, 19)
                 .addComponent(welcomePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -839,7 +836,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
                         .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(cardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(summaryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -869,7 +866,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     * @author Joshua Cassidy, x15378586
     * @purpose: Creating a new instance of seat. Setting appropiate text for the normalTP. Managing other GUI object on the JPanel.
     */
-    private void normalRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normalRBActionPerformed
+    private void normalCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normalCheckBoxActionPerformed
         // TODO add your handling code here:
         gameName = gamesList.get(gameCB.getSelectedIndex()).getGameName();
         normalSeatsAvailable = gamesList.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable();
@@ -882,15 +879,15 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             } else {  
               normalTP.setText("Package Includes:\n" + seatName + "\nLocation: " + seat.getSeatArea() + "\n\n" + seat.getSeatPrice() + "\n" + normalSeatsAvailable + " Available" );  
             }
-        normalRB.setSelected(true);
-        normalSP.setVisible(true);
-        premiumRB.setSelected(false);
-        premiumSP.setVisible(false);
-        businessRB.setSelected(false);
-        businessSP.setVisible(false);
+        normalCheckBox.setSelected(true);
+        normalScrollPane.setVisible(true);
+        premiumCheckBox.setSelected(false);
+        premiumScrollPane.setVisible(false);
+        businessCheckBox.setSelected(false);
+        businessScrollPane.setVisible(false);
         getContentPane().validate();
         getContentPane().repaint();
-    }//GEN-LAST:event_normalRBActionPerformed
+    }//GEN-LAST:event_normalCheckBoxActionPerformed
     /**
     * @author Joshua Cassidy, x15378586
     * @purpose: Managing other GUI object on the JPanel.
@@ -899,25 +896,25 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         getContentPane().validate();
         getContentPane().repaint();
-        normalRB.setSelected(false);
-        normalSP.setVisible(false);
-        premiumRB.setSelected(false);
-        premiumSP.setVisible(false);
-        businessRB.setSelected(false);
-        businessSP.setVisible(false);
+        normalCheckBox.setSelected(false);
+        normalScrollPane.setVisible(false);
+        premiumCheckBox.setSelected(false);
+        premiumScrollPane.setVisible(false);
+        businessCheckBox.setSelected(false);
+        businessScrollPane.setVisible(false);
         
     }//GEN-LAST:event_gameCBActionPerformed
     
     /**
     * @author Yotaphon Sutweha, x16309311
     * @modifiedBy: Joshua Cassidy, x15378586
-    * @reference https://stackoverflow.com/questions/42266148/email-validation-regex-java
+    * @reference: https://stackoverflow.com/questions/42266148/email-validation-regex-java
     * @purpose: Manages validation when regular expressions are used.
     */
     private boolean validation(String regex, String textField) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher match = pattern.matcher(textField);
-        if(!match.find()){
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(textField);
+        if(!m.find()){
             return false;
         } else {
             return true;
@@ -953,7 +950,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         // TODO add your handling code here: 
         seatPrice = seat.getPrice();
         quantity = Integer.parseInt(quantityCB.getSelectedItem().toString());
-        totalCostDisplayLB.setText(String.format("€%.2f",seatPrice*quantity));
+        totalCostDisplayLbl.setText(String.format("€%.2f",seatPrice*quantity));
         
     }//GEN-LAST:event_quantityCBActionPerformed
 
@@ -987,7 +984,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
             File file = new File("Games.dat");
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String[] games = {"Ireland V Spain", "Ireland V South Africa", "Ireland V Switzerland", "Ireland V Thailand", "Spain V South Africa", "Spain V Switzerland", "Spain V Thailand", "South Africa V Switzerland", "South Africa V Thailand", "Switzerland V Thailand"};
+            String[] games = { "South Africa V Thailand", "Ireland V Thailand", "Spain V South Africa", "Spain V Thailand", "Ireland V South Africa", "Ireland V Spain"};
+            sortGames(games);
             ArrayList<Seat> listOfGames = new ArrayList<>();
             Seat game;
             for(String i: games){
@@ -999,6 +997,23 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
         } catch(IOException e){
             System.out.println("Exception: " + e.getMessage());
+        }
+    }
+    
+    /**
+    * @author Joshua Cassidy, x15378586
+    * @purpose: Sorting the list of games that are inserted into the listOfGamesArrayList.
+    * @reference: https://github.com/joshuacassidy/Bubble-Sort
+    */
+    public void sortGames(String[] games) {
+        for(int i = 0; i < games.length-1; i++){
+            for (int j = 0; j < games.length-i-1; j++){
+                if(games[j].compareTo(games[j+1]) > 0){
+                    String temp = games[j+1];
+                    games[j+1] = games[j];
+                    games[j] = temp;
+                }
+            }
         }
     }
     
@@ -1077,7 +1092,7 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     * @author Joshua Cassidy, x15378586
     * @purpose: Creating a new instance of seat. Setting appropiate text for the premiumTP. Managing other GUI object on the JPanel.
     */
-    private void premiumRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_premiumRBActionPerformed
+    private void premiumCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_premiumCheckBoxActionPerformed
         // TODO add your handling code here:
         gameName = gamesList.get(gameCB.getSelectedIndex()).getGameName();
         normalSeatsAvailable = gamesList.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable();
@@ -1090,21 +1105,21 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         } else {  
           premiumTP.setText("Package Includes:\n" + seatName + "\nLocated in the " + seat.getSeatArea() + "\nChoice of meal\nReserved Parking Space\nFasttrack\n" + "\n" + seat.getSeatPrice() + "\n" + premiumSeatsAvailable + " Available");  
         }
-        normalRB.setSelected(false);
-        normalSP.setVisible(false);
-        premiumRB.setSelected(true);
-        premiumSP.setVisible(true);
-        businessRB.setSelected(false);
-        businessSP.setVisible(false);
+        normalCheckBox.setSelected(false);
+        normalScrollPane.setVisible(false);
+        premiumCheckBox.setSelected(true);
+        premiumScrollPane.setVisible(true);
+        businessCheckBox.setSelected(false);
+        businessScrollPane.setVisible(false);
         getContentPane().validate();
         getContentPane().repaint();
-    }//GEN-LAST:event_premiumRBActionPerformed
+    }//GEN-LAST:event_premiumCheckBoxActionPerformed
     
     /**
     * @modifiedBy: Joshua Cassidy, x15378586
     * @purpose: Creating a new instance of seat. Setting appropiate text for the businessTP. Managing other GUI object on the JPanl.
     */
-    private void businessRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_businessRBActionPerformed
+    private void businessCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_businessCheckBoxActionPerformed
         // TODO add your handling code here:
         gameName = gamesList.get(gameCB.getSelectedIndex()).getGameName();
         normalSeatsAvailable = gamesList.get(gameCB.getSelectedIndex()).getNormalSeatsAvailable();
@@ -1117,15 +1132,15 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         } else {
            businessTP.setText("Package Includes:\n" + ((BusinessSeat)seat).getCapacity() + " " +seatName+ "s" +  "\nLocated in the " + seat.getSeatArea() + "\nChoice of meal\n" + "\n" + seat.getSeatPrice() + "\n" + businessSeatsAvailable + " Available"); 
         }
-        businessRB.setSelected(true);
-        businessSP.setVisible(true);
-        premiumRB.setSelected(false);
-        premiumSP.setVisible(false);
-        normalRB.setSelected(false);
-        normalSP.setVisible(false);
+        businessCheckBox.setSelected(true);
+        businessScrollPane.setVisible(true);
+        premiumCheckBox.setSelected(false);
+        premiumScrollPane.setVisible(false);
+        normalCheckBox.setSelected(false);
+        normalScrollPane.setVisible(false);
         getContentPane().validate();
         getContentPane().repaint();
-    }//GEN-LAST:event_businessRBActionPerformed
+    }//GEN-LAST:event_businessCheckBoxActionPerformed
     
     /**
     * @author Yotaphon Sutweha, x16309311
@@ -1207,34 +1222,34 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private void homePageNextBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homePageNextBtnMouseClicked
         // TODO add your handling code here:
         gameName = gameCB.getSelectedItem().toString();
-        if(!businessRB.isSelected() && !premiumRB.isSelected() && !normalRB.isSelected()){
+        if(!businessCheckBox.isSelected() && !premiumCheckBox.isSelected() && !normalCheckBox.isSelected()){
             JOptionPane.showMessageDialog(null,"Please Select a Seat.");
         } else{
             detailsPanel.setVisible(true);// open filling details page
             HomePanel.setVisible(false);// close seat page (first page)
-            totalCostDisplayLB.setText(String.format("€%.2f",seat.getPrice()));
+            totalCostDisplayLbl.setText(String.format("€%.2f",seat.getPrice()));
             if(seat instanceof PremiumSeat){
                 mealCB.setVisible(true);
-                mealLB.setVisible(true);
+                mealLbl.setVisible(true);
                 parkLbl.setVisible(true);
                 parkCB.setVisible(true);
                 quantityCB.setVisible(true);
-                qtyLB.setVisible(true);
+                qtyLbl.setVisible(true);
                 addItemsToCheckBox(((PremiumSeat)seat).getParking(), parkCB);
                 addItemsToCheckBox(((PremiumSeat)seat).getMeal(), mealCB);
             } else if (seat instanceof BusinessSeat) {
                 quantityCB.setVisible(false);
-                qtyLB.setVisible(false);
+                qtyLbl.setVisible(false);
                 mealCB.setVisible(true);
-                mealLB.setVisible(true);
+                mealLbl.setVisible(true);
                 parkLbl.setVisible(false);
                 parkCB.setVisible(false);
                 addItemsToCheckBox(((BusinessSeat)seat).getMeal(), mealCB);
             } else {
                 quantityCB.setVisible(true);
-                qtyLB.setVisible(true);
+                qtyLbl.setVisible(true);
                 mealCB.setVisible(false);
-                mealLB.setVisible(false);
+                mealLbl.setVisible(false);
                 parkLbl.setVisible(false);
                 parkCB.setVisible(false);
             }
@@ -1417,8 +1432,6 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
         year = yearTF.getText();
         ccv = ccvTF.getText();
         
-        
-        
         seatName = seat.getSeatName();
         if(seat instanceof PremiumSeat){
                 selectedSeat.setPremiumSeatAvailable(selectedSeat.getPremiumSeatAvailable()-quantity);
@@ -1445,7 +1458,8 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     */
     private void creditCardPageNextBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_creditCardPageNextBtnMouseClicked
         // TODO add your handling code here:
-        errorMessage = isDetailsValid(validation("\\d{13,16}", cardNumTF.getText()), validation("^1[0-2]$|^0[1-9]$", monthTF.getText()),validation("^\\d{4}$|^\\d{2}$", yearTF.getText()),validation("^\\d{3}$", ccvTF.getText()),validation("^[\\p{L} .'-]+$", nameTF.getText()));
+        errorMessage = isDetailsValid(validation("\\d{13,16}", cardNumTF.getText()), validation("^1[0-2]$|^0[1-9]$", monthTF.getText()),validation("^\\d{4}$|^\\d{2}$", yearTF.getText()),validation("^\\d{3}$", ccvTF.getText()),validation("^[\\p{L} .'-]+$", nameTF.getText()) && !nameTF.getText().equals("Name on Card"));
+
         if(!errorMessage.equals("")) {
             JOptionPane.showMessageDialog(null,errorMessage);
         }else{
@@ -1543,10 +1557,10 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel HomePanel;
-    private javax.swing.JLabel ageLB;
+    private javax.swing.JLabel ageLbl;
     private javax.swing.JTextField ageTA;
-    private javax.swing.JRadioButton businessRB;
-    private javax.swing.JScrollPane businessSP;
+    private javax.swing.JRadioButton businessCheckBox;
+    private javax.swing.JScrollPane businessScrollPane;
     private javax.swing.JTextPane businessTP;
     private javax.swing.JTextField cardNumTF;
     private javax.swing.JPanel cardPanel;
@@ -1557,46 +1571,46 @@ public class TicketExchangeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel detailsPageNextBtn;
     private javax.swing.JPanel detailsPanel;
     private javax.swing.JCheckBox emailCB;
-    private javax.swing.JLabel emailLB;
+    private javax.swing.JLabel emailLbl;
     private javax.swing.JTextField emailTA;
     private javax.swing.JLabel exitBtn;
-    private javax.swing.JLabel fNameLB;
+    private javax.swing.JLabel fNameLbl;
     private javax.swing.JTextField fNameTA;
     private javax.swing.JComboBox<String> gameCB;
-    private javax.swing.JLabel genderLB;
+    private javax.swing.JLabel genderLbl;
     private javax.swing.JTextField genderTA;
     private javax.swing.JLabel homePageNextBtn;
     private javax.swing.JTextField lNameTA;
-    private javax.swing.JLabel logoLB;
+    private javax.swing.JLabel logo;
     private javax.swing.JLabel logoWelcomePage;
     private javax.swing.JComboBox<String> mealCB;
-    private javax.swing.JLabel mealLB;
+    private javax.swing.JLabel mealLbl;
     private javax.swing.JTextField monthTF;
     private javax.swing.JTextField nameTF;
-    private javax.swing.JRadioButton normalRB;
-    private javax.swing.JScrollPane normalSP;
+    private javax.swing.JRadioButton normalCheckBox;
+    private javax.swing.JScrollPane normalScrollPane;
     private javax.swing.JTextPane normalTP;
-    private javax.swing.JLabel offerLB;
+    private javax.swing.JLabel offerLbl;
     private javax.swing.JComboBox<String> parkCB;
     private javax.swing.JLabel parkLbl;
     private javax.swing.JCheckBox phoneCB;
-    private javax.swing.JLabel phoneLB;
+    private javax.swing.JLabel phoneLbl;
     private javax.swing.JTextField phoneTA;
-    private javax.swing.JLabel ppsLB;
+    private javax.swing.JLabel ppsLbl;
     private javax.swing.JTextField ppsnTA;
-    private javax.swing.JRadioButton premiumRB;
-    private javax.swing.JScrollPane premiumSP;
+    private javax.swing.JRadioButton premiumCheckBox;
+    private javax.swing.JScrollPane premiumScrollPane;
     private javax.swing.JTextPane premiumTP;
-    private javax.swing.JLabel qtyLB;
+    private javax.swing.JLabel qtyLbl;
     private javax.swing.JComboBox<String> quantityCB;
-    private javax.swing.JLabel sNameLB;
+    private javax.swing.JLabel sNameLbl;
     private javax.swing.JLabel selectLB;
     private javax.swing.JLabel summaryLB;
     private javax.swing.JPanel summaryPanel;
-    private javax.swing.JScrollPane summarySP;
+    private javax.swing.JScrollPane summaryScrollPane;
     private javax.swing.JTextArea summaryTA;
-    private javax.swing.JLabel totalCostDisplayLB;
-    private javax.swing.JLabel welcomeLB;
+    private javax.swing.JLabel totalCostDisplayLbl;
+    private javax.swing.JLabel welcomeLbl;
     private javax.swing.JLabel welcomePageNextBtn;
     private javax.swing.JPanel welcomePanel;
     private javax.swing.JTextField yearTF;
