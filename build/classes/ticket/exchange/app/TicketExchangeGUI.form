@@ -145,7 +145,7 @@
                       <Component id="businessScrollPane" alignment="0" min="-2" pref="174" max="-2" attributes="0"/>
                       <Component id="normalScrollPane" min="-2" pref="174" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="85" max="32767" attributes="0"/>
+                  <EmptySpace pref="88" max="32767" attributes="0"/>
                   <Component id="homePageNextBtn" min="-2" pref="69" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
